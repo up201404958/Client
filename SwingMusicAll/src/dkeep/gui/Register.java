@@ -10,7 +10,12 @@ import net.miginfocom.swing.MigLayout;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import dkeep.client.Client;
+
 import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Register {
 
@@ -19,7 +24,8 @@ public class Register {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
-
+	Client user=new Client();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -72,32 +78,41 @@ public class Register {
 		textField = new JTextField();
 		panel_1.add(textField, "cell 12 2,growx");
 		textField.setColumns(10);
-		
-		JLabel lblPassword = new JLabel("Email");
-		lblPassword.setForeground(Color.WHITE);
-		panel_1.add(lblPassword, "cell 7 4");
+		/*
+		JLabel lblEmail = new JLabel("Email");
+		lblEmail.setForeground(Color.WHITE);
+		panel_1.add(lblEmail, "cell 7 4");
 		
 		textField_1 = new JTextField();
 		panel_1.add(textField_1, "cell 12 4,growx");
 		textField_1.setColumns(10);
-		
-		JLabel lblEmail = new JLabel("Password");
-		lblEmail.setForeground(Color.WHITE);
-		panel_1.add(lblEmail, "cell 7 6");
+		*/
+		JLabel lblPassword = new JLabel("Password");
+		lblPassword.setForeground(Color.WHITE);
+		panel_1.add(lblPassword, "cell 7 6");
 		
 		textField_2 = new JTextField();
 		panel_1.add(textField_2, "cell 12 6,growx");
 		textField_2.setColumns(10);
-		
-		JLabel lblConfimPassword = new JLabel("Confim Password");
+		/*
+		JLabel lblConfimPassword = new JLabel("Confirm Password");
 		lblConfimPassword.setForeground(Color.WHITE);
 		panel_1.add(lblConfimPassword, "cell 7 8");
 		
 		textField_3 = new JTextField();
 		panel_1.add(textField_3, "cell 12 8,growx");
-		textField_3.setColumns(10);
+		textField_3.setColumns(10);*/
 		
 		JButton btnSignUp = new JButton("Sign up");
+		btnSignUp.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String name=textField.getText();
+				String password=textField_2.getText();
+				String message = "REGS "+name+" "+password;
+				user.run(message);
+			}
+		});
 		panel_1.add(btnSignUp, "cell 11 11");
 	}
 
