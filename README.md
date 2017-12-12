@@ -3,4 +3,3 @@
 
 https://travis-ci.org/up201404958/Client.svg?branch=master
 
-https://api.travis-ci.org/up201404958/Client.svg?branch=master
