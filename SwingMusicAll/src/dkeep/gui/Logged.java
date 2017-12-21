@@ -32,18 +32,23 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-public class Logged{
+public class Logged extends Main {
 
-	private JFrame frame;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public JFrame frame;
 	private JTextField txtSearch;
 	private JTextField changePass;
 	private JTextField confirmPass;
-	
+	public JEditorPane dtrpnUserName_1;
+	public JEditorPane dtrpnUserName;
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
+		/*EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Logged window = new Logged();
@@ -52,12 +57,13 @@ public class Logged{
 					e.printStackTrace();
 				}
 			}
-		});
+		});*/
 	}
 
 	/**
 	 * Create the application.
 	 * @throws IOException 
+	 * @wbp.parser.entryPoint
 	 */
 	public Logged() throws IOException {
 		initialize();
@@ -94,11 +100,17 @@ public class Logged{
 		panel_1.add(txtSearch, "cell 4 0,alignx center");
 		txtSearch.setColumns(10);
 		
-		JEditorPane dtrpnUserName = new JEditorPane();
+		dtrpnUserName = new JEditorPane();
 		dtrpnUserName.setText("User name");
 		panel_1.add(dtrpnUserName, "flowx,cell 5 0,alignx right");
 		
 		JButton btnLogOut = new JButton("Log out");
+		btnLogOut.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToLogin();
+			}
+		});
 		panel_1.add(btnLogOut, "cell 5 0,alignx right");
 		
 		JPanel panel = new JPanel();
@@ -159,7 +171,7 @@ public class Logged{
 		frame.getContentPane().add(panel_2, gbc_panel_2);
 		panel_2.setLayout(new MigLayout("", "[125.00px][20.00,grow][grow][][][][][][grow][-2.00][16.00][][20.00][156.00][][][][86px][][-56.00][][-23.00][][][-27.00][][][][]", "[20px,grow][][][grow][grow][20px][][][22.00px,grow,top][][grow][][grow]"));
 		
-		JEditorPane dtrpnUserName_1 = new JEditorPane();
+		dtrpnUserName_1 = new JEditorPane();
 		dtrpnUserName_1.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		dtrpnUserName_1.setText("User Name");
 		panel_2.add(dtrpnUserName_1, "cell 0 1 11 1,grow");

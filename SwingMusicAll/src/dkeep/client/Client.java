@@ -3,7 +3,9 @@ package dkeep.client;
 import java.io.*;
 import java.net.*;
 
-public class Client{
+import dkeep.gui.Main;
+
+public class Client extends Main{
     
 	Socket requestSocket;
     ObjectOutputStream out;
@@ -24,13 +26,22 @@ public class Client{
             //3: Communicating with the server
             try{
             	    sendMessage(msg);
+            	    String[] parts = msg.split(" ");
                 message = (String)in.readObject();
                 System.out.println("server>" + message);
-                if(message.equals("INVALID LOGIN") || message.equals("USERNAME ALREADY EXISTS"))
+                if(message.equals("INVALID LOGIN")) 
                 		System.out.println("ERROR:" + message);
-                else
+                else if(message.equals("USERNAME ALREADY EXISTS")) {
+                		register.Invalid_Username.setVisible(true);
+                		register.Invalid_Username.setText("INVALID USERNAME");
+                }
+                else if(message.equals("VALID LOGIN")){
                 		System.out.println("server>" + message);
-            
+                		user.setUser(parts[1]);
+                		user.goToHomepage();
+                }else if(message.equals("REGISTED")) {
+                		user.goToLogin();
+                }
             }catch(ClassNotFoundException classNot){
                 System.err.println("data received in unknown format");
             }
@@ -65,5 +76,6 @@ public class Client{
             ioException.printStackTrace();
         }
     }
+   
   
 }

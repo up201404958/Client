@@ -20,6 +20,7 @@ import dkeep.client.Client;
 import javax.swing.JLabel;
 
 import java.awt.FlowLayout;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
@@ -36,19 +37,19 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Component;
 
-public class NotLogged extends JFrame implements ActionListener {
+public class NotLogged extends Main implements ActionListener {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	public JFrame frame;
 	private JPanel contentPane;
 	private JTextField txtUser;
 	private JTextField txtPassword;
 	static JLabel image_move = new JLabel("");
-	Client user=new Client();
+	//Client user=new Client();
 	static Thread move;
+	static JButton btnSignIn;
 	
-
 	/**
 	 * Launch the application.
 	 */
@@ -59,7 +60,7 @@ public class NotLogged extends JFrame implements ActionListener {
 			public void run() {
 				int oldx=image_move.getX();
 				int oldy=image_move.getY();
-				int tam=5;
+				int tam=40;
 				int x=oldx;
 				int y=oldy;
 				
@@ -67,12 +68,14 @@ public class NotLogged extends JFrame implements ActionListener {
 				int vely=1;
 				do {
 					x+=velx;
-					y+=vely;
 					if(oldx+tam < x || oldx-tam > x) {
 						velx*=-1;
+						y-=2*vely;
 					}
+				
 					if(oldy+tam < y || oldy-tam > y) {
-						vely*=-1;
+						velx*=-1;
+						y+=2*vely;
 					}
 					image_move.setLocation(x, y);
 					try {
@@ -88,12 +91,12 @@ public class NotLogged extends JFrame implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			
 			public void run() {
-				try {
+				/*try {
 					NotLogged frame = new NotLogged();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
-				}
+				}*/
 			}
 		});	
 	
@@ -103,13 +106,14 @@ public class NotLogged extends JFrame implements ActionListener {
 	 * @throws IOException 
 	 */
 	public NotLogged() throws IOException {
-		setBackground(Color.DARK_GRAY);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 898, 451);
+		frame=new JFrame();
+		frame.setBackground(Color.DARK_GRAY);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setBounds(100, 100, 898, 451);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.DARK_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+		frame.setContentPane(contentPane);
 
 		ImageIcon regular = new ImageIcon(ClassLoader.getSystemResource("logopequeno.png"));
 		ImageIcon hovering = new ImageIcon(ClassLoader.getSystemResource("logopequeno.png"));
@@ -128,6 +132,7 @@ public class NotLogged extends JFrame implements ActionListener {
 												btnRegister.setBackground(new Color(211, 211, 211));
 												btnRegister.addActionListener(new ActionListener() {
 													public void actionPerformed(ActionEvent arg0) {
+														user.goToRegister();
 													}
 												});
 												
@@ -144,10 +149,10 @@ public class NotLogged extends JFrame implements ActionListener {
 												txtPassword.setColumns(10);
 												
 												
-												JButton btnSignIn = new JButton("Sign in");
+												btnSignIn = new JButton("Sign in");
 												btnSignIn.addMouseListener(new MouseAdapter() {
 													@Override
-													public void mouseClicked(MouseEvent e) {
+													public void mouseClicked(MouseEvent login) {
 														String name=txtUser.getText();
 														String password=txtPassword.getText();
 														String message = "LOGN "+name+" "+password;

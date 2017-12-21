@@ -19,12 +19,14 @@ import java.awt.event.MouseEvent;
 
 public class Register {
 
-	private JFrame frame;
+	public JFrame frame;
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
+	
 	Client user=new Client();
+	public JTextField Invalid_Username;
 	
 	/**
 	 * Launch the application.
@@ -69,7 +71,7 @@ public class Register {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(Color.DARK_GRAY);
 		frame.getContentPane().add(panel_1, BorderLayout.CENTER);
-		panel_1.setLayout(new MigLayout("", "[][][][][][][9.00][121.00][][][][][156.00][48.00,grow]", "[][][][][][][][][][][][]"));
+		panel_1.setLayout(new MigLayout("", "[][][][][][][9.00][121.00][][][][][156.00,grow][48.00,grow]", "[][][][][][][][][][][][]"));
 		
 		JLabel lblUserName = new JLabel("User Name");
 		lblUserName.setForeground(Color.WHITE);
@@ -114,6 +116,10 @@ public class Register {
 			}
 		});
 		panel_1.add(btnSignUp, "cell 11 11");
+		
+		Invalid_Username = new JTextField();
+		panel_1.add(Invalid_Username, "cell 12 11,growx");
+		Invalid_Username.setColumns(10);
 	}
 
 }
