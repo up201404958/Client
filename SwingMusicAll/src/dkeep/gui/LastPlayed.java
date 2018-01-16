@@ -20,7 +20,7 @@ import net.miginfocom.swing.MigLayout;
 
 public class LastPlayed {
 
-	private JFrame frame;
+	protected JFrame frame;
 	private JTextField txtSearch;
 
 	/**

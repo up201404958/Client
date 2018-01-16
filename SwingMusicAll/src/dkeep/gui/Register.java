@@ -19,7 +19,7 @@ import java.awt.event.MouseEvent;
 
 public class Register {
 
-	public JFrame frame;
+	protected JFrame frame;
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;

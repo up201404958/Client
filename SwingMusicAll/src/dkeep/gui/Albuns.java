@@ -17,7 +17,7 @@ import java.awt.GridLayout;
 
 public class Albuns {
 
-	private JFrame frame;
+	protected JFrame frame;
 	private JTextField txtSearch;
 
 	/**

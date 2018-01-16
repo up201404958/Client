@@ -21,7 +21,7 @@ import java.awt.GridLayout;
 
 public class Songs {
 
-	private JFrame frame;
+	protected JFrame frame;
 	private JTextField txtSearch;
 
 	/**

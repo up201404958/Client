@@ -31,6 +31,8 @@ import javax.swing.JScrollBar;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Logged extends Main {
 
@@ -38,12 +40,12 @@ public class Logged extends Main {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public JFrame frame;
+	protected JFrame frame;
 	private JTextField txtSearch;
 	private JTextField changePass;
 	private JTextField confirmPass;
-	public JEditorPane dtrpnUserName_1;
-	public JEditorPane dtrpnUserName;
+	protected JEditorPane dtrpnUserName_1;
+	protected JEditorPane dtrpnUserName;
 	/**
 	 * Launch the application.
 	 */
@@ -95,6 +97,15 @@ public class Logged extends Main {
 		frame.getContentPane().add(panel_1, gbc_panel_1);
 		panel_1.setLayout(new MigLayout("", "[][19.00][19.00][20.00][87.00][659.00]", "[]"));
 		
+		JButton buttonHome = new JButton("Home");
+		buttonHome.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToHomepage();
+			}
+		});
+		panel_1.add(buttonHome, "cell 0 0");
+		
 		txtSearch = new JTextField();
 		txtSearch.setText("Search");
 		panel_1.add(txtSearch, "cell 4 0,alignx center");
@@ -124,40 +135,70 @@ public class Logged extends Main {
 		panel.setLayout(new MigLayout("", "[]", "[][][][][][][][][][][][][]"));
 		
 		JButton btnLastPlayed = new JButton("Last Played");
+		btnLastPlayed.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToLastPlayed();
+				//user.run("LSPL ALL");
+			}
+		});
 		panel.add(btnLastPlayed, "cell 0 0");
 		
 		JButton btnSongs = new JButton("Songs");
+		btnSongs.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToSongs();
+				//user.run("SNGS ALL");
+			}
+		});
 		panel.add(btnSongs, "cell 0 1");
 		
 		JButton btnAlbuns = new JButton("Albuns");
+		btnAlbuns.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToAlbuns();
+				//user.run("ALBS ALL");
+			}
+		});
 		panel.add(btnAlbuns, "cell 0 2");
 		
 		JButton btnArtists = new JButton("Artists");
+		btnArtists.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToArtists();
+				user.run("ARTS ALL");
+			}
+		});
 		panel.add(btnArtists, "cell 0 3,alignx left");
 		
 		JLabel lblPlaylists = new JLabel("Playlists");
 		panel.add(lblPlaylists, "cell 0 4");
 		
-		JButton btnWorkout = new JButton("Workout");
-		panel.add(btnWorkout, "cell 0 5");
-		
-		JButton btnSleep = new JButton("Sleep");
-		panel.add(btnSleep, "cell 0 6");
-		
-		JButton btnElectronic = new JButton("Electronic");
-		panel.add(btnElectronic, "cell 0 7");
-		
-		JButton btnPortuguese = new JButton("Portuguese");
-		panel.add(btnPortuguese, "cell 0 8");
-		
-		JButton btnTravel = new JButton("Travel");
-		panel.add(btnTravel, "cell 0 9");
-		
-		JButton btnLove = new JButton("Love");
-		panel.add(btnLove, "cell 0 10");
+		JButton btnMyPlaylists = new JButton("My Playlists");
+		btnMyPlaylists.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToMyPlaylists();
+				user.run("PLAYLST "+user.username);
+			}
+		});
+		btnMyPlaylists.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		panel.add(btnMyPlaylists, "cell 0 5");
 		
 		JButton btnAddPlaylist = new JButton("Add playlist");
-		panel.add(btnAddPlaylist, "cell 0 12");
+		btnAddPlaylist.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToCreatePlaylist();
+			}
+		});
+		panel.add(btnAddPlaylist, "cell 0 6");
 		
 		JPanel panel_2 = new JPanel();
 		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
@@ -279,66 +320,27 @@ public class Logged extends Main {
 		gbc_panel_3.gridy = 3;
 		frame.getContentPane().add(panel_3, gbc_panel_3);
 		
-		JButton btnWorkout_1 = new JButton("Workout");
-		
 		JPanel panel_6 = new JPanel();
 		panel_6.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		JButton btnSleep_1 = new JButton("Sleep");
-		
-		JButton btnLove_1 = new JButton("Love");
-		
 		JScrollBar scrollBar = new JScrollBar();
-		
-		JButton btnPortuguese_1 = new JButton("Portuguese");
-		
-		JButton btnTravel_1 = new JButton("Travel");
-		
-		JButton btnElectronic_1 = new JButton("Electronic");
 		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
 		gl_panel_3.setHorizontalGroup(
 			gl_panel_3.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_3.createSequentialGroup()
-					.addGap(29)
-					.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel_3.createSequentialGroup()
-							.addComponent(btnWorkout_1, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(panel_6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addComponent(btnPortuguese_1))
-					.addGap(186)
-					.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnSleep_1, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnTravel_1, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE))
-					.addGap(197)
-					.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnLove_1, GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
-						.addComponent(btnElectronic_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addGap(36)
+					.addGap(130)
+					.addComponent(panel_6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 617, Short.MAX_VALUE)
 					.addComponent(scrollBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(48))
 		);
 		gl_panel_3.setVerticalGroup(
 			gl_panel_3.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_3.createSequentialGroup()
-					.addGap(7)
-					.addGroup(gl_panel_3.createParallelGroup(Alignment.LEADING)
+					.addContainerGap(33, Short.MAX_VALUE)
+					.addGroup(gl_panel_3.createParallelGroup(Alignment.TRAILING)
 						.addComponent(panel_6, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_panel_3.createParallelGroup(Alignment.TRAILING)
-							.addComponent(scrollBar, GroupLayout.PREFERRED_SIZE, 158, GroupLayout.PREFERRED_SIZE)
-							.addGroup(gl_panel_3.createSequentialGroup()
-								.addGroup(gl_panel_3.createParallelGroup(Alignment.BASELINE)
-									.addComponent(btnSleep_1)
-									.addComponent(btnLove_1))
-								.addGap(135)))
-						.addGroup(Alignment.TRAILING, gl_panel_3.createSequentialGroup()
-							.addComponent(btnWorkout_1)
-							.addPreferredGap(ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
-							.addGroup(gl_panel_3.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnPortuguese_1)
-								.addComponent(btnTravel_1)
-								.addComponent(btnElectronic_1))
-							.addGap(69))))
+						.addComponent(scrollBar, GroupLayout.PREFERRED_SIZE, 158, GroupLayout.PREFERRED_SIZE)))
 		);
 		panel_3.setLayout(gl_panel_3);
 

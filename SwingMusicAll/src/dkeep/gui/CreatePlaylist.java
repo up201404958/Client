@@ -18,12 +18,17 @@ import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-public class CreatePlaylist {
+public class CreatePlaylist extends Main{
 
-	private JFrame frame;
+	public JFrame frame;
 	private JTextField txtSearch;
 	private JTextField txtAddusername;
+	private JTextField txtLol;
 
 	/**
 	 * Launch the application.
@@ -115,26 +120,34 @@ public class CreatePlaylist {
 		
 		JPanel panel_2 = new JPanel();
 		frame.getContentPane().add(panel_2, "cell 2 1,growx,aligny top");
-		panel_2.setLayout(new MigLayout("", "[106px,grow][grow][][][][][][grow][-2.00][13.00][][20.00][156.00][][][][86px][][-56.00][][-23.00][][][-27.00][grow][][][]", "[20px,grow][][][grow][20px][][22.00px,grow,top][][grow][grow]"));
+		panel_2.setLayout(new MigLayout("", "[106px,grow][grow][][][][grow][][][][][grow][-2.00][13.00][][20.00][156.00][][][][86px][][-56.00][][-23.00][][][-27.00][grow][][][]", "[20px,grow][][][grow][20px][][22.00px,grow,top][][grow][grow]"));
 		
-		JPanel panel_9 = new JPanel();
-		panel_2.add(panel_9, "cell 17 0 5 10,grow");
-		panel_9.setLayout(new GridLayout(0, 1, 0, 0));
+		JLabel lblEnterPlaylistName = new JLabel("ENTER PLAYLIST NAME");
+		panel_2.add(lblEnterPlaylistName, "cell 3 2");
 		
-		JScrollBar scrollBar = new JScrollBar();
-		panel_9.add(scrollBar);
+		JButton btnAdd = new JButton("Create");
+		btnAdd.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String name = txtLol.getText();
+				user.run("CREATE "+name+" "+user.username);
+				frame.repaint();
+			}
+		});
 		
-		JEditorPane dtrpnCreatePlaylist = new JEditorPane();
-		dtrpnCreatePlaylist.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		dtrpnCreatePlaylist.setText("Enter name");
-		panel_2.add(dtrpnCreatePlaylist, "cell 7 2 5 1,grow");
+		txtLol = new JTextField();
+		txtLol.setText("lol");
+		panel_2.add(txtLol, "cell 5 2,growx");
+		txtLol.setColumns(10);
+		
+		panel_2.add(btnAdd, "cell 10 2");
 		
 		JPanel panel_3 = new JPanel();
-		panel_2.add(panel_3, "cell 0 6 17 1,grow");
+		panel_2.add(panel_3, "cell 0 6 20 1,grow");
 		GridBagLayout gbl_panel_3 = new GridBagLayout();
-		gbl_panel_3.columnWidths = new int[]{101, 106, 106, 101, 61, 123, 126, 0};
+		gbl_panel_3.columnWidths = new int[]{101, 106, 0, 106, 101, 61, 123, 126, 0};
 		gbl_panel_3.rowHeights = new int[]{30, 0};
-		gbl_panel_3.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_3.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel_3.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		panel_3.setLayout(gbl_panel_3);
 		
@@ -142,7 +155,7 @@ public class CreatePlaylist {
 		GridBagConstraints gbc_lblSharedWith = new GridBagConstraints();
 		gbc_lblSharedWith.anchor = GridBagConstraints.WEST;
 		gbc_lblSharedWith.insets = new Insets(0, 0, 0, 5);
-		gbc_lblSharedWith.gridx = 0;
+		gbc_lblSharedWith.gridx = 1;
 		gbc_lblSharedWith.gridy = 0;
 		panel_3.add(lblSharedWith, gbc_lblSharedWith);
 		
@@ -156,24 +169,12 @@ public class CreatePlaylist {
 		panel_3.add(txtAddusername, gbc_txtAddusername);
 		txtAddusername.setColumns(10);
 		
-		JButton btnAdd = new JButton("Add");
-		GridBagConstraints gbc_btnAdd = new GridBagConstraints();
-		gbc_btnAdd.insets = new Insets(0, 0, 0, 5);
-		gbc_btnAdd.gridx = 4;
-		gbc_btnAdd.gridy = 0;
-		panel_3.add(btnAdd, gbc_btnAdd);
-		
 		JPanel panel_4 = new JPanel();
 		GridBagConstraints gbc_panel_4 = new GridBagConstraints();
 		gbc_panel_4.fill = GridBagConstraints.BOTH;
-		gbc_panel_4.gridx = 6;
+		gbc_panel_4.gridx = 7;
 		gbc_panel_4.gridy = 0;
 		panel_3.add(panel_4, gbc_panel_4);
-		
-		JComboBox comboBox = new JComboBox();
-		panel_4.add(comboBox);
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Key", "Bpm", "Format"}));
-		comboBox.setToolTipText("Order");
 
 	}
 
