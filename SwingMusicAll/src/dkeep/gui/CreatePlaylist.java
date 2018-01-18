@@ -22,13 +22,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Color;
 
 public class CreatePlaylist extends Main{
 
 	public JFrame frame;
-	private JTextField txtSearch;
 	private JTextField txtAddusername;
 	private JTextField txtLol;
+	protected JLabel username;
 
 	/**
 	 * Launch the application.
@@ -58,68 +59,87 @@ public class CreatePlaylist extends Main{
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(102, 153, 102));
 		frame.setBounds(100, 100, 898, 451);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("", "[101px][4px][680.00px]", "[37px][357px]"));
+		frame.getContentPane().setLayout(null);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(102, 153, 102));
+		panel_1.setBounds(16, 16, 219, 61);
+		frame.getContentPane().add(panel_1);
+		panel_1.setLayout(null);
+		
+		JButton btnNewButton = new JButton("Home");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToHomepage();
+			}
+		});
+		btnNewButton.setBounds(16, 26, 89, 29);
+		panel_1.add(btnNewButton);
 		
 		JPanel panel = new JPanel();
-		frame.getContentPane().add(panel, "cell 0 1,alignx left,growy");
+		panel.setBackground(new Color(102, 153, 102));
+		panel.setBounds(16, 81, 172, 326);
+		frame.getContentPane().add(panel);
 		panel.setLayout(new MigLayout("", "[]", "[][][][][][][][][][][][][]"));
 		
 		JButton btnLastPlayed = new JButton("Last Played");
 		panel.add(btnLastPlayed, "cell 0 0");
 		
 		JButton btnSongs = new JButton("Songs");
+		btnSongs.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToSongs();
+				user.run("SNGS ALL");
+				user.run("SNGPLST "+user.username);
+			}
+		});
 		panel.add(btnSongs, "cell 0 1");
 		
 		JButton btnAlbuns = new JButton("Albuns");
+		btnAlbuns.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToAlbuns();
+				user.run("ALBS ALL");
+			}
+		});
 		panel.add(btnAlbuns, "cell 0 2");
 		
 		JButton btnArtists = new JButton("Artists");
+		btnArtists.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToArtists();
+				user.run("ARTS ALL");
+			}
+		});
 		panel.add(btnArtists, "cell 0 3,alignx left");
 		
 		JLabel lblPlaylists = new JLabel("Playlists");
 		panel.add(lblPlaylists, "cell 0 4");
 		
-		JButton btnWorkout = new JButton("Workout");
-		panel.add(btnWorkout, "cell 0 5");
+		JButton btnMyPlaylists = new JButton("My Playlists");
+		btnMyPlaylists.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToMyPlaylists();
+				user.run("PLAYLST "+user.username);
+			}
+		});
+		panel.add(btnMyPlaylists, "cell 0 5");
 		
-		JButton btnSleep = new JButton("Sleep");
-		panel.add(btnSleep, "cell 0 6");
-		
-		JButton btnElectronic = new JButton("Electronic");
-		panel.add(btnElectronic, "cell 0 7");
-		
-		JButton btnPortuguese = new JButton("Portuguese");
-		panel.add(btnPortuguese, "cell 0 8");
-		
-		JButton btnTravel = new JButton("Travel");
-		panel.add(btnTravel, "cell 0 9");
-		
-		JButton btnLove = new JButton("Love");
-		panel.add(btnLove, "cell 0 10");
-		
-		JButton btnAddPlaylist = new JButton("Add playlist");
-		panel.add(btnAddPlaylist, "cell 0 12");
-		
-		JPanel panel_1 = new JPanel();
-		frame.getContentPane().add(panel_1, "cell 0 0 3 1,growx,aligny top");
-		panel_1.setLayout(new MigLayout("", "[][19.00][19.00][20.00][87.00][659.00]", "[]"));
-		
-		txtSearch = new JTextField();
-		txtSearch.setText("Search");
-		panel_1.add(txtSearch, "cell 4 0,alignx center");
-		txtSearch.setColumns(10);
-		
-		JEditorPane dtrpnUserName = new JEditorPane();
-		dtrpnUserName.setText("User name");
-		panel_1.add(dtrpnUserName, "flowx,cell 5 0,alignx right");
-		
-		JButton btnLogOut = new JButton("Log out");
-		panel_1.add(btnLogOut, "cell 5 0,alignx right");
+		JButton btnCreatePlaylists = new JButton("Create Playlist");
+		panel.add(btnCreatePlaylists, "cell 0 6");
 		
 		JPanel panel_2 = new JPanel();
-		frame.getContentPane().add(panel_2, "cell 2 1,growx,aligny top");
+		panel_2.setBackground(new Color(102, 153, 102));
+		panel_2.setBounds(239, 123, 830, 242);
+		frame.getContentPane().add(panel_2);
 		panel_2.setLayout(new MigLayout("", "[106px,grow][grow][][][][grow][][][][][grow][-2.00][13.00][][20.00][156.00][][][][86px][][-56.00][][-23.00][][][-27.00][grow][][][]", "[20px,grow][][][grow][20px][][22.00px,grow,top][][grow][grow]"));
 		
 		JLabel lblEnterPlaylistName = new JLabel("ENTER PLAYLIST NAME");
@@ -143,6 +163,7 @@ public class CreatePlaylist extends Main{
 		panel_2.add(btnAdd, "cell 10 2");
 		
 		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(new Color(102, 153, 102));
 		panel_2.add(panel_3, "cell 0 6 20 1,grow");
 		GridBagLayout gbl_panel_3 = new GridBagLayout();
 		gbl_panel_3.columnWidths = new int[]{101, 106, 0, 106, 101, 61, 123, 126, 0};
@@ -170,12 +191,26 @@ public class CreatePlaylist extends Main{
 		txtAddusername.setColumns(10);
 		
 		JPanel panel_4 = new JPanel();
+		panel_4.setBackground(new Color(102, 153, 102));
 		GridBagConstraints gbc_panel_4 = new GridBagConstraints();
 		gbc_panel_4.fill = GridBagConstraints.BOTH;
 		gbc_panel_4.gridx = 7;
 		gbc_panel_4.gridy = 0;
 		panel_3.add(panel_4, gbc_panel_4);
+		
+		JButton btnLogOut = new JButton("Log out");
+		btnLogOut.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToLogin();
+			}
+		});
+		btnLogOut.setBounds(787, 31, 92, 29);
+		frame.getContentPane().add(btnLogOut);
+		
+		username = new JLabel();
+		username.setBounds(688, 36, 61, 16);
+		frame.getContentPane().add(username);
 
 	}
-
 }

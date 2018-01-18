@@ -44,8 +44,7 @@ public class Logged extends Main {
 	private JTextField txtSearch;
 	private JTextField changePass;
 	private JTextField confirmPass;
-	protected JEditorPane dtrpnUserName_1;
-	protected JEditorPane dtrpnUserName;
+	protected JLabel user_name;
 	/**
 	 * Launch the application.
 	 */
@@ -97,23 +96,10 @@ public class Logged extends Main {
 		frame.getContentPane().add(panel_1, gbc_panel_1);
 		panel_1.setLayout(new MigLayout("", "[][19.00][19.00][20.00][87.00][659.00]", "[]"));
 		
-		JButton buttonHome = new JButton("Home");
-		buttonHome.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				user.goToHomepage();
-			}
-		});
-		panel_1.add(buttonHome, "cell 0 0");
-		
 		txtSearch = new JTextField();
 		txtSearch.setText("Search");
 		panel_1.add(txtSearch, "cell 4 0,alignx center");
 		txtSearch.setColumns(10);
-		
-		dtrpnUserName = new JEditorPane();
-		dtrpnUserName.setText("User name");
-		panel_1.add(dtrpnUserName, "flowx,cell 5 0,alignx right");
 		
 		JButton btnLogOut = new JButton("Log out");
 		btnLogOut.addMouseListener(new MouseAdapter() {
@@ -149,7 +135,8 @@ public class Logged extends Main {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToSongs();
-				//user.run("SNGS ALL");
+				user.run("SNGS ALL");
+				user.run("SNGPLST "+user.username);
 			}
 		});
 		panel.add(btnSongs, "cell 0 1");
@@ -159,7 +146,7 @@ public class Logged extends Main {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToAlbuns();
-				//user.run("ALBS ALL");
+				user.run("ALBS ALL");
 			}
 		});
 		panel.add(btnAlbuns, "cell 0 2");
@@ -191,7 +178,7 @@ public class Logged extends Main {
 		});
 		panel.add(btnMyPlaylists, "cell 0 5");
 		
-		JButton btnAddPlaylist = new JButton("Add playlist");
+		JButton btnAddPlaylist = new JButton("Create playlist");
 		btnAddPlaylist.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -210,23 +197,27 @@ public class Logged extends Main {
 		gbc_panel_2.gridx = 1;
 		gbc_panel_2.gridy = 1;
 		frame.getContentPane().add(panel_2, gbc_panel_2);
-		panel_2.setLayout(new MigLayout("", "[125.00px][20.00,grow][grow][][][][][][grow][-2.00][16.00][][20.00][156.00][][][][86px][][-56.00][][-23.00][][][-27.00][][][][]", "[20px,grow][][][grow][grow][20px][][][22.00px,grow,top][][grow][][grow]"));
+		panel_2.setLayout(new MigLayout("", "[125.00px][20.00,grow][grow][][][][][][][][][grow][-2.00][16.00][][20.00][156.00][][][][86px][][-56.00][][-23.00][][][-27.00][][][][]", "[][20px,grow][][][grow][grow][20px][][][][22.00px,grow,top][][][grow][][][grow]"));
 		
-		dtrpnUserName_1 = new JEditorPane();
-		dtrpnUserName_1.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		dtrpnUserName_1.setText("User Name");
-		panel_2.add(dtrpnUserName_1, "cell 0 1 11 1,grow");
+		user_name = new JLabel();
+		user_name.setFont(new Font("Orator Std", Font.BOLD | Font.ITALIC, 25));
+		panel_2.add( user_name, "cell 0 0 7 8");
 		
 		JLabel lblChangePassword = new JLabel("Change Password");
-		panel_2.add(lblChangePassword, "cell 0 4");
+		panel_2.add(lblChangePassword, "cell 3 8");
 		
-		changePass = new JTextField();
-		panel_2.add(changePass, "cell 1 4 10 1,growx");
-		changePass.setColumns(10);
+		JLabel lblConfirmPassword = new JLabel("Confirm Password");
+		panel_2.add(lblConfirmPassword, "cell 3 12");
+		
+		confirmPass = new JTextField();
+		panel_2.add(confirmPass, "cell 10 12,growx");
+		confirmPass.setColumns(10);
+		
+		JButton btnChange = new JButton("Change");
+		panel_2.add(btnChange, "flowx,cell 16 12");
 		
 		JPanel panel_4 = new JPanel();
-		panel_2.add(panel_4, "cell 11 1 16 12,alignx center,aligny center");
-		panel_4.setLayout(new MigLayout("", "[][][][][][][][-6.00,grow]", "[][][][][grow]"));
+		panel_2.add(panel_4, "cell 14 2 16 15,alignx center,aligny center");
 		
 		ImageIcon regular = new ImageIcon(ClassLoader.getSystemResource("logomedio.png"));
 		ImageIcon hovering = new ImageIcon(ClassLoader.getSystemResource("logomedio.png"));
@@ -235,6 +226,7 @@ public class Logged extends Main {
 		
 		
 		final JLabel lblMusicall = new JLabel(regular);
+		lblMusicall.setBounds(211, 28, 0, 0);
 		lblMusicall.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -275,41 +267,17 @@ public class Logged extends Main {
 				super.mouseMoved(e);
 			}
 		});
-		panel_4.add(lblMusicall, "cell 0 1,alignx center,aligny center");
+		panel_4.setLayout(null);
+		panel_4.add(lblMusicall);
 		
 		JPanel panel_5 = new JPanel();
-		panel_4.add(panel_5, "cell 0 3,alignx center,aligny center");
+		panel_5.setBounds(16, 44, 393, 32);
+		panel_4.add(panel_5);
 		panel_5.setLayout(new MigLayout("", "[][][][75.00][][106.00][149.00][67.00][]", "[grow]"));
 		
-		JEditorPane dtrpnNameArtist = new JEditorPane();
-		dtrpnNameArtist.setText("Name song");
-		panel_5.add(dtrpnNameArtist, "cell 3 0,alignx center,aligny center");
-		
-		JEditorPane dtrpnSong = new JEditorPane();
-		dtrpnSong.setText("Artist");
-		panel_5.add(dtrpnSong, "cell 4 0,alignx center,aligny center");
-		
-		JEditorPane dtrpnAlbum = new JEditorPane();
-		dtrpnAlbum.setText("Album");
-		panel_5.add(dtrpnAlbum, "cell 5 0,alignx center,aligny center");
-		
-		JEditorPane dtrpnTime = new JEditorPane();
-		dtrpnTime.setText("Time");
-		panel_5.add(dtrpnTime, "cell 6 0,alignx center,aligny center");
-		
-		JButton btnPauseplay = new JButton("Pause/Play");
-		btnPauseplay.setBackground(new Color(211, 211, 211));
-		panel_5.add(btnPauseplay, "cell 7 0,aligny center");
-		
-		JSlider slider = new JSlider();
-		panel_5.add(slider, "cell 8 0,alignx center,aligny center");
-		
-		JLabel lblConfirmPassword = new JLabel("Confirm Password");
-		panel_2.add(lblConfirmPassword, "cell 0 6");
-		
-		confirmPass = new JTextField();
-		panel_2.add(confirmPass, "cell 1 6 10 1,growx");
-		confirmPass.setColumns(10);
+		changePass = new JTextField();
+		panel_2.add(changePass, "cell 10 8,growx");
+		changePass.setColumns(10);
 		
 		JPanel panel_3 = new JPanel();
 		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
@@ -319,31 +287,16 @@ public class Logged extends Main {
 		gbc_panel_3.gridx = 1;
 		gbc_panel_3.gridy = 3;
 		frame.getContentPane().add(panel_3, gbc_panel_3);
-		
-		JPanel panel_6 = new JPanel();
-		panel_6.setLayout(new GridLayout(0, 1, 0, 0));
-		
-		JScrollBar scrollBar = new JScrollBar();
 		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
 		gl_panel_3.setHorizontalGroup(
 			gl_panel_3.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_3.createSequentialGroup()
-					.addGap(130)
-					.addComponent(panel_6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 617, Short.MAX_VALUE)
-					.addComponent(scrollBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(48))
+				.addGap(0, 723, Short.MAX_VALUE)
 		);
 		gl_panel_3.setVerticalGroup(
 			gl_panel_3.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_3.createSequentialGroup()
-					.addContainerGap(33, Short.MAX_VALUE)
-					.addGroup(gl_panel_3.createParallelGroup(Alignment.TRAILING)
-						.addComponent(panel_6, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
-						.addComponent(scrollBar, GroupLayout.PREFERRED_SIZE, 158, GroupLayout.PREFERRED_SIZE)))
+				.addGap(0, 200, Short.MAX_VALUE)
 		);
 		panel_3.setLayout(gl_panel_3);
 
 	}
-
 }

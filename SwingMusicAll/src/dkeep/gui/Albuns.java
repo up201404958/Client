@@ -7,19 +7,36 @@ import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import net.miginfocom.swing.MigLayout;
 import java.awt.GridLayout;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.Color;
 
-public class Albuns {
+public class Albuns extends Main {
 
 	protected JFrame frame;
 	private JTextField txtSearch;
-
+	private JTable table;
+	protected JLabel user_name;
+	protected String[] col = {"Id","Name","Year","Genre","Artist"};
+	
+	public DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
+		 @Override
+		 public boolean isCellEditable(int row, int column)
+		 {
+		    return false;//This causes all cells to be not editable
+		 }
+	};
 	/**
 	 * Launch the application.
 	 */
@@ -48,143 +65,140 @@ public class Albuns {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(255, 204, 153));
+		frame.setBackground(new Color(255, 204, 153));
 		frame.setBounds(100, 100, 898, 451);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new MigLayout("", "[101px][4px][680.00px]", "[37px][357px]"));
+		frame.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
-		frame.getContentPane().add(panel, "cell 0 1,alignx left,growy");
+		panel.setBounds(16, 81, 151, 348);
+		panel.setBackground(new Color(255, 204, 153));
+		frame.getContentPane().add(panel);
 		panel.setLayout(new MigLayout("", "[]", "[][][][][][][][][][][][][]"));
 		
 		JButton btnLastPlayed = new JButton("Last Played");
+		btnLastPlayed.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
 		panel.add(btnLastPlayed, "cell 0 0");
 		
 		JButton btnSongs = new JButton("Songs");
+		btnSongs.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToSongs();
+				user.run("SNGS ALL");
+				user.run("SNGPLST "+user.username);
+			}
+		});
 		panel.add(btnSongs, "cell 0 1");
 		
 		JButton btnAlbuns = new JButton("Albuns");
 		panel.add(btnAlbuns, "cell 0 2");
 		
 		JButton btnArtists = new JButton("Artists");
+		btnArtists.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToArtists();
+				user.run("ARTS ALL");
+			}
+		});
 		panel.add(btnArtists, "cell 0 3,alignx left");
 		
 		JLabel lblPlaylists = new JLabel("Playlists");
 		panel.add(lblPlaylists, "cell 0 4");
 		
-		JButton btnWorkout = new JButton("Workout");
-		panel.add(btnWorkout, "cell 0 5");
+		JButton btnMyPlaylists = new JButton("My Playlists");
+		btnMyPlaylists.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToMyPlaylists();
+				user.run("PLAYLST "+user.username);
+			}
+		});
+		panel.add(btnMyPlaylists, "cell 0 5");
 		
-		JButton btnSleep = new JButton("Sleep");
-		panel.add(btnSleep, "cell 0 6");
-		
-		JButton btnElectronic = new JButton("Electronic");
-		panel.add(btnElectronic, "cell 0 7");
-		
-		JButton btnPortuguese = new JButton("Portuguese");
-		panel.add(btnPortuguese, "cell 0 8");
-		
-		JButton btnTravel = new JButton("Travel");
-		panel.add(btnTravel, "cell 0 9");
-		
-		JButton btnLove = new JButton("Love");
-		panel.add(btnLove, "cell 0 10");
-		
-		JButton btnAddPlaylist = new JButton("Add playlist");
-		panel.add(btnAddPlaylist, "cell 0 12");
+		JButton btnCreatePlaylists = new JButton("Create Playlist");
+		btnCreatePlaylists.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToCreatePlaylist();
+			}
+		});
+		panel.add(btnCreatePlaylists, "cell 0 6");
 		
 		JPanel panel_1 = new JPanel();
-		frame.getContentPane().add(panel_1, "cell 0 0 3 1,growx,aligny top");
-		panel_1.setLayout(new MigLayout("", "[][19.00][19.00][20.00][87.00][659.00]", "[]"));
+		panel_1.setBounds(16, 16, 866, 61);
+		frame.getContentPane().add(panel_1);
+		panel_1.setBackground(new Color(255, 204, 153));
+		
+		JButton btnHome = new JButton("Home");
+		btnHome.setBounds(16, 16, 81, 29);
+		btnHome.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToHomepage();
+			}
+		});
+		panel_1.setLayout(null);
+		panel_1.add(btnHome);
 		
 		txtSearch = new JTextField();
+		txtSearch.setBounds(128, 16, 73, 26);
 		txtSearch.setText("Search");
-		panel_1.add(txtSearch, "cell 4 0,alignx center");
+		panel_1.add(txtSearch);
 		txtSearch.setColumns(10);
 		
-		JEditorPane dtrpnUserName = new JEditorPane();
-		dtrpnUserName.setText("User name");
-		panel_1.add(dtrpnUserName, "flowx,cell 5 0,alignx right");
-		
 		JButton btnLogOut = new JButton("Log out");
-		panel_1.add(btnLogOut, "cell 5 0,alignx right");
+		btnLogOut.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToLogin();
+			}
+		});
+		btnLogOut.setBounds(768, 16, 92, 29);
+		panel_1.add(btnLogOut);
 		
-		JPanel panel_2 = new JPanel();
-		frame.getContentPane().add(panel_2, "cell 2 1,growx,aligny top");
-		panel_2.setLayout(new MigLayout("", "[106px,grow][grow][][][][][][grow][-2.00][13.00][][20.00][156.00][][][][86px][][-56.00][][-23.00][][][-27.00][grow][][][]", "[20px,grow][][][grow][20px][][22.00px,grow,top][][grow][grow]"));
+		user_name = new JLabel();
+		user_name.setBackground(Color.LIGHT_GRAY);
+		user_name.setFont(new Font("Orator Std", Font.BOLD, 17));
+		user_name.setBounds(641, 21, 127, 25);
+		panel_1.add(user_name);
+		user_name.setText(username);
 		
-		JPanel panel_9 = new JPanel();
-		panel_2.add(panel_9, "cell 17 0 5 10,grow");
-		panel_9.setLayout(new GridLayout(0, 1, 0, 0));
+		JLabel lblNewLabel = new JLabel("ALBUMS");
+		lblNewLabel.setFont(new Font("Orator Std", Font.BOLD, 30));
+		lblNewLabel.setBounds(382, 105, 193, 55);
+		frame.getContentPane().add(lblNewLabel);
 		
-		JScrollBar scrollBar = new JScrollBar();
-		panel_9.add(scrollBar);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(225, 172, 474, 196);
+		frame.getContentPane().add(scrollPane);
 		
-		JEditorPane dtrpnAlbuns = new JEditorPane();
-		dtrpnAlbuns.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		dtrpnAlbuns.setText("Albuns");
-		panel_2.add(dtrpnAlbuns, "cell 7 2 5 1,alignx center,growy");
+		table = new JTable(tableModel);
+		scrollPane.setViewportView(table);
 		
-		JPanel panel_3 = new JPanel();
-		panel_2.add(panel_3, "cell 0 6 17 1,grow");
-		panel_3.setLayout(new MigLayout("", "[grow][][][][][][][][][][][][][][106.00][grow][][grow]", "[grow][grow]"));
-		
-		JEditorPane dtrpnNameAlbum = new JEditorPane();
-		dtrpnNameAlbum.setText("Name album");
-		panel_3.add(dtrpnNameAlbum, "cell 0 0,alignx center,aligny center");
-		
-		JEditorPane dtrpnArtist = new JEditorPane();
-		dtrpnArtist.setText("Artist");
-		panel_3.add(dtrpnArtist, "cell 2 0,alignx center,aligny center");
-		
-		JEditorPane dtrpnYear = new JEditorPane();
-		dtrpnYear.setText("Year");
-		panel_3.add(dtrpnYear, "cell 4 0,alignx center,aligny center");
-		
-		JEditorPane dtrpnPublisher = new JEditorPane();
-		dtrpnPublisher.setText("Publisher");
-		panel_3.add(dtrpnPublisher, "cell 6 0,alignx center,aligny center");
-		
-		JPanel panel_5 = new JPanel();
-		panel_2.add(panel_5, "cell 0 7 17 2,grow");
-		panel_5.setLayout(new MigLayout("", "[grow][][][][][][][][][][][][][][106.00][grow][][grow]", "[grow][grow]"));
-		
-		JEditorPane dtrpnNameAlbum_1 = new JEditorPane();
-		dtrpnNameAlbum_1.setText("Name album");
-		panel_5.add(dtrpnNameAlbum_1, "cell 0 0,alignx center,aligny center");
-		
-		JEditorPane dtrpnArtist_1 = new JEditorPane();
-		dtrpnArtist_1.setText("Artist");
-		panel_5.add(dtrpnArtist_1, "cell 2 0,alignx center,aligny center");
-		
-		JEditorPane dtrpnYear_1 = new JEditorPane();
-		dtrpnYear_1.setText("Year");
-		panel_5.add(dtrpnYear_1, "cell 4 0,alignx center,aligny center");
-		
-		JEditorPane dtrpnPublisher_1 = new JEditorPane();
-		dtrpnPublisher_1.setText("Publisher");
-		panel_5.add(dtrpnPublisher_1, "cell 6 0,alignx center,aligny center");
-		
-		JPanel panel_7 = new JPanel();
-		panel_2.add(panel_7, "cell 0 9 17 1,grow");
-		
-		panel_7.setLayout(new MigLayout("", "[grow][][][][][][][][][][][][][][106.00][grow][][grow]", "[grow][grow]"));
-		
-		JEditorPane dtrpnNameAlbum_2 = new JEditorPane();
-		dtrpnNameAlbum_2.setText("Name album");
-		panel_7.add(dtrpnNameAlbum_2, "cell 0 0,alignx center,aligny center");
-		
-		JEditorPane dtrpnArtist_2 = new JEditorPane();
-		dtrpnArtist_2.setText("Artist");
-		panel_7.add(dtrpnArtist_2, "cell 2 0,alignx center,aligny center");
-		
-		JEditorPane dtrpnYear_2 = new JEditorPane();
-		dtrpnYear_2.setText("Year");
-		panel_7.add(dtrpnYear_2, "cell 4 0,alignx center,aligny center");
-		
-		JEditorPane dtrpnPublisher_2 = new JEditorPane();
-		dtrpnPublisher_2.setText("Publisher");
-		panel_7.add(dtrpnPublisher_2, "cell 6 0,alignx center,aligny center");
-		
+		table.addMouseListener(new java.awt.event.MouseAdapter() {
+			@Override
+		    public void mouseClicked(java.awt.event.MouseEvent evt) {
+				if(evt.getClickCount()==2){
+					int row = table.rowAtPoint(evt.getPoint());
+					int col = table.columnAtPoint(evt.getPoint());
+					if (row >= 0 && col >= 0) {
+		        			thisalbum.album_name.setText((String) table.getValueAt(row, 1));
+		        			thisalbum.album_year.setText((String) table.getValueAt(row, 2));
+		        			thisalbum.artist_name.setText((String) table.getValueAt(row, 4));
+		        			String id = (String)table.getValueAt(row, 0);
+		        			user.goToThisAlbum();
+		        			user.run("GOTOTA "+id);
+		        			
+					}
+				}
+			}
+		});
 	}
-
 }

@@ -213,7 +213,7 @@ public class NotLogged extends Main implements ActionListener {
 												panel.setBackground(Color.DARK_GRAY);
 												contentPane.add(panel);
 												panel.setLayout(new MigLayout("", "[][][][][][106.00][grow][][grow]", "[grow]"));
-												
+												/*
 												JEditorPane dtrpnNameArtist = new JEditorPane();
 												dtrpnNameArtist.setText("Name song");
 												panel.add(dtrpnNameArtist, "cell 3 0,alignx center,aligny center");
@@ -234,8 +234,8 @@ public class NotLogged extends Main implements ActionListener {
 												btnPauseplay.setBackground(new Color(211, 211, 211));
 												panel.add(btnPauseplay, "cell 7 0,aligny center");
 												
-												JSlider slider = new JSlider();
-												panel.add(slider, "cell 8 0,aligny center");
+												/*JSlider slider = new JSlider();
+												panel.add(slider, "cell 8 0,aligny center");*/
 												image_move.setBounds(346, 110, 200, 157);
 												contentPane.add(image_move);
 												

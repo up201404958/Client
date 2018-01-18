@@ -11,13 +11,9 @@ import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import net.miginfocom.swing.MigLayout;
@@ -26,18 +22,23 @@ import java.awt.GridLayout;
 import javax.swing.JScrollBar;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class MyPlaylists extends Main{
+public class ThisPlaylist extends Main {
 
-	public JFrame frame;
+	protected MusicThread Song;
+	protected JFrame frame;
 	private JTextField txtSearch;
 	protected JLabel user_name;
-	protected String[] col = {"Id","Name"};
-	
+	private JTable table;
+	protected JLabel playlist_name;
+	protected String id;
+	protected String[] col = {"Id","Name","Genre","Duration","BPM","Key"};
 	public DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
 		 @Override
 		 public boolean isCellEditable(int row, int column)
@@ -45,9 +46,6 @@ public class MyPlaylists extends Main{
 		    return false;//This causes all cells to be not editable
 		 }
 	};
-	private JTable table;
-	
-
 	/**
 	 * Launch the application.
 	 */
@@ -55,7 +53,7 @@ public class MyPlaylists extends Main{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MyPlaylists window = new MyPlaylists();
+					ThisAlbum window = new ThisAlbum();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -66,8 +64,9 @@ public class MyPlaylists extends Main{
 
 	/**
 	 * Create the application.
+	 * @wbp.parser.entryPoint
 	 */
-	public MyPlaylists() {
+	public ThisPlaylist() {
 		initialize();
 	}
 
@@ -76,16 +75,16 @@ public class MyPlaylists extends Main{
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.getContentPane().setBackground(new Color(153, 204, 255));
+		frame.getContentPane().setBackground(new Color(204, 255, 204));
 		frame.setBounds(100, 100, 898, 451);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(153, 204, 255));
-		panel.setBounds(16, 81, 146, 332);
+		panel.setBackground(new Color(204, 255, 204));
+		panel.setBounds(16, 81, 151, 332);
 		frame.getContentPane().add(panel);
-		panel.setLayout(new MigLayout("", "[]", "[][][][][][][][][][][][][]"));
+		panel.setLayout(new MigLayout("", "[]", "[][][][][][][][][][][][][][][][][][][][][]"));
 		
 		JButton btnLastPlayed = new JButton("Last Played");
 		panel.add(btnLastPlayed, "cell 0 0");
@@ -124,20 +123,28 @@ public class MyPlaylists extends Main{
 		JLabel lblPlaylists = new JLabel("Playlists");
 		panel.add(lblPlaylists, "cell 0 4");
 		
-		JButton btnMyPlaylists = new JButton("My Playlists");
-		panel.add(btnMyPlaylists, "cell 0 5");
+		JButton MyPlaylists = new JButton("My Playlists");
+		MyPlaylists.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToMyPlaylists();
+				user.run("PLAYLST "+user.username);
+			}
+		});
 		
-		JButton btnCreatePlaylists = new JButton("Create Playlists");
-		btnCreatePlaylists.addMouseListener(new MouseAdapter() {
+		panel.add(MyPlaylists, "cell 0 6");
+		
+		JButton CreatePlaylist = new JButton("Create Playlist");
+		CreatePlaylist.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToCreatePlaylist();
 			}
 		});
-		panel.add(btnCreatePlaylists, "cell 0 6");
+		panel.add(CreatePlaylist, "cell 0 8");
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(153, 204, 255));
+		panel_1.setBackground(new Color(204, 255, 204));
 		panel_1.setBounds(16, 16, 866, 61);
 		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
@@ -169,58 +176,99 @@ public class MyPlaylists extends Main{
 		panel_1.add(btnLogOut);
 		
 		user_name = new JLabel();
-		user_name.setFont(new Font("Orator Std", Font.BOLD, 17));
-		user_name.setBounds(643, 21, 103, 24);
+		user_name.setBounds(663, 21, 61, 16);
 		panel_1.add(user_name);
 		
-		JLabel lblMyPlaylists = new JLabel("MY PLAYLISTS");
-		lblMyPlaylists.setFont(new Font("Orator Std", Font.BOLD, 30));
-		lblMyPlaylists.setBounds(392, 100, 216, 48);
-		frame.getContentPane().add(lblMyPlaylists);
-		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(322, 160, 356, 69);
+		scrollPane.setBounds(230, 185, 586, 182);
 		frame.getContentPane().add(scrollPane);
 		
 		table = new JTable(tableModel);
 		scrollPane.setViewportView(table);
 		
-		//CHOOSE LINES
-		/*ListSelectionModel select = table.getSelectionModel();
-		select.addListSelectionListener(new ListSelectionListener() {
-
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				if(! select.isSelectionEmpty()) {
-					int row=select.getMinSelectionIndex();
-					String namee = (String) table.getValueAt(row, 1);
-					JOptionPane.showMessageDialog(null, namee);
-				}
-				
-			}
-			
-		});*/
+		playlist_name = new JLabel();
+		playlist_name.setFont(new Font("Orator Std", Font.BOLD, 25));
+		playlist_name.setBounds(351, 89, 163, 50);
+		frame.getContentPane().add(playlist_name);
 		
-		table.addMouseListener(new java.awt.event.MouseAdapter() {
+		JButton btnOrderByBpm = new JButton("Order by BPM");
+		btnOrderByBpm.addMouseListener(new MouseAdapter() {
 			@Override
-		    public void mouseClicked(java.awt.event.MouseEvent evt) {
-				if(evt.getClickCount()==2){
-					int row = table.rowAtPoint(evt.getPoint());
-					int col = table.columnAtPoint(evt.getPoint());
-					if (row >= 0 && col >= 0) {
-						String id = (String) table.getValueAt(row,0);
-						String text = (String) table.getValueAt(row, 1);
-						thisplaylist.playlist_name.setText(text);
-						thisplaylist.setID(id);
-						user.run("PLSTSNG "+thisplaylist.getID());
-						user.goToThisPlaylist();
-		        			//JOptionPane.showMessageDialog(null, (String) table.getValueAt(row, 1));
-					}
+			public void mouseClicked(MouseEvent e) {
+				thisplaylist.tableModel.setRowCount(0);
+				user.run("BPLSTSNG "+thisplaylist.getID());
+			}
+		});
+		btnOrderByBpm.setBounds(560, 144, 117, 29);
+		frame.getContentPane().add(btnOrderByBpm);
+		
+		JButton btnOrderByKey = new JButton("Order by Key");
+		btnOrderByKey.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				thisplaylist.tableModel.setRowCount(0);
+				user.run("KPLSTSNG "+thisplaylist.getID());
+				//user.refreshPage();
+
+			}
+		});
+		btnOrderByKey.setBounds(689, 144, 117, 29);
+		frame.getContentPane().add(btnOrderByKey);
+		
+		JButton btnPlay = new JButton("Play");
+		btnPlay.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(Flags.activethread==false) {
+					Song = new MusicThread();
+					Song.start();
+					Flags.flag=true;
 				}
 			}
 		});
+		btnPlay.setBounds(230, 379, 117, 29);
+		frame.getContentPane().add(btnPlay);
+		
+		JButton btnStop = new JButton("Stop");
+		btnStop.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Flags.flag=false;
+				Flags.activethread=false;
+				Song.interrupt();
+				
+			}
+		});
+		btnStop.setBounds(397, 379, 117, 29);
+		frame.getContentPane().add(btnStop);
+		
+		JButton btnPause = new JButton("Pause");
+		btnPause.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Flags.stoped=true;
+			}
+		});
+		btnPause.setBounds(560, 379, 117, 29);
+		frame.getContentPane().add(btnPause);
+		
+		JButton btnResume = new JButton("Resume");
+		btnResume.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Flags.stoped=false;
+			}
+		});
+		btnResume.setBounds(699, 379, 117, 29);
+		frame.getContentPane().add(btnResume);
 		
 		
 		
+	}
+	protected void setID(String value) {
+		this.id=value;
+	}
+	protected String getID() {
+		return this.id;
 	}
 }

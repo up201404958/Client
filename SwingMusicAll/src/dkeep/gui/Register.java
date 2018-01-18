@@ -24,9 +24,9 @@ public class Register {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
+	public JLabel label;
 	
 	Client user=new Client();
-	public JTextField Invalid_Username;
 	
 	/**
 	 * Launch the application.
@@ -111,15 +111,19 @@ public class Register {
 			public void mouseClicked(MouseEvent e) {
 				String name=textField.getText();
 				String password=textField_2.getText();
-				String message = "REGS "+name+" "+password;
-				user.run(message);
+				if(name.equals("") || password.equals("")) {
+					label.setText("INVALID");
+				}else {
+					String message = "REGS "+name+" "+password;
+					user.run(message);
+				}
 			}
 		});
 		panel_1.add(btnSignUp, "cell 11 11");
 		
-		Invalid_Username = new JTextField();
-		panel_1.add(Invalid_Username, "cell 12 11,growx");
-		Invalid_Username.setColumns(10);
+		label = new JLabel("");
+		label.setForeground(Color.WHITE);
+		panel_1.add(label, "cell 12 11");
 	}
 
 }
