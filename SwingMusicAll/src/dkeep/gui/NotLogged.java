@@ -15,27 +15,20 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import dkeep.client.Client;
+
 
 import javax.swing.JLabel;
 
-import java.awt.FlowLayout;
-import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Point;
 
 import net.miginfocom.swing.MigLayout;
-import javax.swing.SwingConstants;
-import javax.swing.Timer;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import javax.swing.JEditorPane;
-import javax.swing.JSlider;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
-import java.awt.Component;
+
 
 public class NotLogged extends Main implements ActionListener {
 	/**

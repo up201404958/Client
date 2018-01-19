@@ -1,25 +1,22 @@
 package dkeep.gui;
 
 import java.awt.EventQueue;
-import java.awt.Font;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.swing.DefaultComboBoxModel;
+
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JEditorPane;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
+
 import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
@@ -207,7 +204,18 @@ public class CreatePlaylist extends Main{
 		});
 		btnLogOut.setBounds(787, 31, 92, 29);
 		frame.getContentPane().add(btnLogOut);
-		
+		JLabel lblDownloads = new JLabel("Downloads");
+		panel.add(lblDownloads, "cell 0 7");
+		JButton mySongs = new JButton("My Songs");
+		mySongs.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.run("MYSNGS "+user.username);
+				user.run("SNGPLST "+user.username);
+				user.goToMySongs();
+			}
+		});
+		panel.add(mySongs, "cell 0 8");
 		username = new JLabel();
 		username.setBounds(688, 36, 61, 16);
 		frame.getContentPane().add(username);

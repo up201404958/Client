@@ -1,31 +1,41 @@
 package dkeep.gui;
 
 import java.io.File;
+
 import kuusisto.tinysound.Music;
 import kuusisto.tinysound.TinySound;
 
 public class MusicThread extends Thread {
 		
+		protected String id;
+		
+		public MusicThread(String id) {
+			this.id = id;
+		}
 		@Override
 		 public void run(){
 		//	while(true) {
 			Flags.activethread=true;
 			TinySound.init();
-			Music song = TinySound.loadMusic(new File( "test2.wav"));
+			String path = "music/music_" + this.id+".wav";
+			Music song = TinySound.loadMusic(new File(path));
+			try {
+				sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			song.play(false);
-			while (song.playing()== true)
-			{
+			while (song.playing()== true){
 				//if (song.playing()==false || Flags.flag==false )break;		
 				if (Flags.flag==false )break;	
 				
-				if(Flags.stoped==true)
-				{
+				if(Flags.stoped==true){
 
-					
 					song.pause();
 					
-					while(true)
-					{System.out.println("Hello");
+					while(true){
+						System.out.println("Hello");
 						
 						if(Flags.stoped==false) {
 							song.resume();
@@ -39,6 +49,8 @@ public class MusicThread extends Thread {
 				
 			}
 			System.out.println("Hshuttto");
+			song.stop();
+			Flags.activethread=false;
 			TinySound.shutdown();
 	      
 	   // }

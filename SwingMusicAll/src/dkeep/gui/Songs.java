@@ -1,33 +1,19 @@
 package dkeep.gui;
 
 import java.awt.Color;
-
 import java.awt.EventQueue;
 import java.awt.Font;
-
-import javax.swing.DefaultCellEditor;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-
-import javafx.scene.control.TableColumn;
 import net.miginfocom.swing.MigLayout;
-import java.awt.GridLayout;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -37,25 +23,22 @@ public class Songs extends Main{
 	private JTextField txtSearch;
 	public JTable table;
 	protected JLabel user_name;
-	protected String[] col = {"Id","Name","Genre","BPM","Key","Duration","Artist","Album","AddTo"};
-
-	public JComboBox<String> combobox;
-	public javax.swing.table.TableColumn plColumn;
+	protected String[] col = {"Id","Name","Genre","BPM","Key","Duration","Artist","Album"};
 	
 	
+	@SuppressWarnings("serial")
 	public DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
-		 @Override
+		 
+		@Override
 		 public boolean isCellEditable(int row, int column)
 		 {  
-			if(column==8) {
-				return true;
-			}
+			
 		    return false;//This causes all cells to be not editable
 		 }
 	};
 	/**
-	 * Launch the application.
-	 */
+	* Launch the application.
+	*/
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -190,30 +173,8 @@ public class Songs extends Main{
 		
 		table = new JTable(tableModel);
 		scrollPane.setViewportView(table);
-		
-		tableModel.addTableModelListener(new TableModelListener() {
-			 @Override
-			    public void tableChanged(TableModelEvent e) {
-			        int type = e.getType();
-			        switch (type) {
-			            case TableModelEvent.UPDATE:
-			                if (e.getFirstRow() - e.getLastRow() == 0) {
-			                    TableModel model = (TableModel) e.getSource();
-			                    int row = e.getFirstRow();
-			                    int col = e.getColumn();
-			                    System.out.println("Update " + row + "x" + col + " = " + model.getValueAt(row, col));
-			                    if(model.getValueAt(row,col)!=null){
-			                    		String aux = (String) model.getValueAt(row, col);
-			                    		String[] parts = aux.split("-");
-			                    	    user.run("ADDSNG "+parts[1]+" "+model.getValueAt(row, 0));
-			                    }
-			                   
-			                }
-			                break;
-			        }
-			    }
-			});
-		
+	
+
 		table.addMouseListener(new java.awt.event.MouseAdapter() {
 			@Override
 		    public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -221,17 +182,28 @@ public class Songs extends Main{
 					int row = table.rowAtPoint(evt.getPoint());
 					int col = table.columnAtPoint(evt.getPoint());
 					if (row >= 0 && col >= 0) {
-		        			JOptionPane.showMessageDialog(null, (String) table.getValueAt(row, 1));
+						int r = JOptionPane.showConfirmDialog(null,(String) table.getValueAt(row, 1)," Download",JOptionPane.YES_NO_OPTION);
+						if (r == JOptionPane.YES_OPTION) {
+		        				user.run("DWLD "+(String) table.getValueAt(row, 0)); //download music id
+		        			}
 					}
 				}
 			}
 		});
 		
-		//JComboBox comboBox = new JComboBox();
-		/*plColumn = table.getColumnModel().getColumn(8);
-		comboBox.addItem("jkk");
-		comboBox.addItem("lol");
-		plColumn.setCellEditor(new DefaultCellEditor(comboBox));*/
+
+		JLabel lblDownloads = new JLabel("Downloads");
+		panel.add(lblDownloads, "cell 0 7");
+		JButton mySongs = new JButton("My Songs");
+		mySongs.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.run("MYSNGS "+user.username);
+				user.run("SNGPLST "+user.username);
+				user.goToMySongs();
+			}
+		});
+		panel.add(mySongs, "cell 0 8");
 		
 		
 	}

@@ -3,27 +3,18 @@ package dkeep.gui;
 import java.awt.Color;
 
 import java.awt.EventQueue;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 
 import javax.swing.JButton;
-import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
+
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import net.miginfocom.swing.MigLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
-import javax.swing.JScrollBar;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.event.MouseAdapter;
@@ -39,6 +30,7 @@ public class ThisAlbum extends Main {
 	protected JLabel album_year;
 	private JTable table;
 	protected String[] col = {"Id","Name","Genre","Duration","Key","BPM"};
+	@SuppressWarnings("serial")
 	public DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
 		 @Override
 		 public boolean isCellEditable(int row, int column)
@@ -205,7 +197,18 @@ public class ThisAlbum extends Main {
 		album_year.setBounds(789, 180, 61, 16);
 		frame.getContentPane().add(album_year);
 		
-		
+		JLabel lblDownloads = new JLabel("Downloads");
+		panel.add(lblDownloads, "cell 0 7");
+		JButton mySongs = new JButton("My Songs");
+		mySongs.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.run("MYSNGS "+user.username);
+				user.run("SNGPLST "+user.username);
+				user.goToMySongs();
+			}
+		});
+		panel.add(mySongs, "cell 0 8");
 		
 	}
 }

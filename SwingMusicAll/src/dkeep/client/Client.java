@@ -1,17 +1,14 @@
 package dkeep.client;
 
-import java.awt.List;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
-import javax.swing.JList;
-import javax.swing.JTable;
 
 import dkeep.gui.Main;
+import dkeep.gui.MusicThread;
 
 public class Client extends Main{
     
@@ -23,10 +20,15 @@ public class Client extends Main{
     ArrayList <String> playlists = new ArrayList<String>();
     ArrayList <String> albums = new ArrayList<String>();
     ArrayList <String> songss = new ArrayList<String>();
+    public boolean playlist = false;
+    public MusicThread Song;
+	
+
     
     public Client(){}
     
-    public void run(String msg)
+    @SuppressWarnings("unchecked") // read in object
+	public void run(String msg)
     {
         try{
             //1. creating a socket to connect to the server
@@ -58,6 +60,16 @@ public class Client extends Main{
                     			Object[] row = {this_row[0],this_row[1],this_row[2],this_row[3],this_row[4]};
                     			albuns.tableModel.addRow(row);
                     	}
+            	    }else if(parts[0].equals("MYSNGS")) {
+            	    		
+            			songss = (ArrayList<String>)in.readObject();
+            	    
+            			for(int i=0;i<songss.size();i++) {
+                			String[] this_row = songss.get(i).split(",");
+                			Object[] row = {this_row[0],this_row[1],this_row[2],this_row[3],this_row[4],this_row[5],this_row[6],this_row[7]};
+                			mysongs.tableModel.addRow(row);
+            			}
+
             	    }else if(parts[0].equals("SNGS")){
             	    		
             	    		songss = (ArrayList<String>)in.readObject();
@@ -71,15 +83,17 @@ public class Client extends Main{
             	    }else if(parts[0].equals("SNGPLST")) {
             	    		
             	    	    ArrayList <String> playlists = (ArrayList<String>)in.readObject();
-            	    	    songs.combobox = new JComboBox<String>();
-            	    		songs.plColumn = songs.table.getColumnModel().getColumn(8);
+            	    	    
+            	    	    mysongs.combobox = new JComboBox<String>();
+            	    		mysongs.plColumn = mysongs.table.getColumnModel().getColumn(8);
             	    		
-            	    		String[] this_row = playlists.get(0).split(",");
-        	    			System.out.println(this_row[1]);
-        	    			songs.combobox.addItem(this_row[1]+"-"+this_row[0]);
-            	    		
-            	    		
-            	    		songs.plColumn.setCellEditor(new DefaultCellEditor(songs.combobox));
+            	    		for(int i=0;i<playlists.size();i++) {
+            	    			String[] this_row = playlists.get(i).split(",");
+            	    			mysongs.combobox.addItem(this_row[1]+"-"+this_row[0]);
+            	    		}
+            	    		if(playlists.size()==0)
+            	    			user.playlist=true;
+            	    		mysongs.plColumn.setCellEditor(new DefaultCellEditor(mysongs.combobox));
             	    	
             	    }else if(parts[0].equals("CREATE")) { //CREATE PLAYLIST
                 	
@@ -121,6 +135,10 @@ public class Client extends Main{
                 		
                 		System.out.println("server sent>" + songs);
                 	
+                	}else if(parts[0].equals("DWLD")) {
+                		downloadSong(parts);
+                	}else if(parts[0].equals("CHNGPASS")) {
+                		logged.setText("");
                 	}else{
                 		message = (String)in.readObject();
                 
@@ -164,7 +182,32 @@ public class Client extends Main{
         }
     }
    
-    public void sendMessage(String msg)
+    private void downloadSong(String[] parts) {
+    		
+    	 	try {
+    	 		byte data[] = new byte[2048]; // Here you can increase the size also which will receive it faster
+	        String path = "music/music_" + parts[1]+".wav";
+	    		FileOutputStream fileOut = new FileOutputStream(path);
+	     
+	        BufferedOutputStream fileBuffer = new BufferedOutputStream(fileOut);
+	        int count;
+	        int sum = 0;
+	        while ((count = in.read(data)) > 0) {
+	            sum += count;
+	            fileBuffer.write(data, 0, count);
+	            //System.out.println("Data received : " + sum);
+	            fileBuffer.flush();
+	        }
+	        System.out.println("File Received..." + sum + " bytes");
+	        fileBuffer.close();
+	        in.close();
+    	 	} catch (Exception e) {
+    	        System.out.println("Error : " + e.toString());
+    	    }
+		
+	}
+
+	public void sendMessage(String msg)
     {
         try{
             out.writeObject(msg);

@@ -5,9 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -156,11 +154,7 @@ public class LastPlayed {
 		
 		JPanel panel_6 = new JPanel();
 		panel_5.add(panel_6, "flowy,cell 17 0,aligny center");
-		
-		JComboBox comboBox_1 = new JComboBox();
-		panel_6.add(comboBox_1);
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Workout", "Sleep", "Electronic", "Portuguese", "Travel", "Love"}));
-		comboBox_1.setToolTipText("Add playlist");
+	
 		
 		JPanel panel_7 = new JPanel();
 		panel_2.add(panel_7, "cell 0 9 17 1,grow");
@@ -192,11 +186,7 @@ public class LastPlayed {
 		
 		JPanel panel_8 = new JPanel();
 		panel_7.add(panel_8, "flowy,cell 17 0,aligny center");
-		
-		JComboBox comboBox_2 = new JComboBox();
-		panel_8.add(comboBox_2);
-		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"Workout", "Sleep", "Electronic", "Portuguese", "Travel", "Love"}));
-		comboBox_2.setToolTipText("Add playlist");
+	
 		
 		JPanel panel_3 = new JPanel();
 		panel_2.add(panel_3, "cell 0 6 17 1,grow");
@@ -228,10 +218,7 @@ public class LastPlayed {
 		JPanel panel_10 = new JPanel();
 		panel_3.add(panel_10, "flowy,cell 17 0,aligny center");
 		
-		JComboBox comboBox_3 = new JComboBox();
-		panel_10.add(comboBox_3);
-		comboBox_3.setModel(new DefaultComboBoxModel(new String[] {"Workout", "Sleep", "Electronic", "Portuguese", "Travel", "Love"}));
-		comboBox_3.setToolTipText("Add playlist");
+	
 	}
 
 }

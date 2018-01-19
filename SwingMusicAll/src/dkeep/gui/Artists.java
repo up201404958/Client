@@ -4,25 +4,22 @@ import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
 
-import javax.swing.DefaultListModel;
+
 import javax.swing.JButton;
-import javax.swing.JEditorPane;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
+
 import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
-import java.awt.GridLayout;
-import java.awt.List;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JList;
+
 import javax.swing.JScrollPane;
-import javax.swing.border.EmptyBorder;
+
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 import java.awt.Color;
@@ -36,7 +33,12 @@ public class Artists extends Main{
 	protected JLabel user_name;
 	
 	public DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
-		 @Override
+		 /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		@Override
 		 public boolean isCellEditable(int row, int column)
 		 {
 		    return false;//This causes all cells to be not editable

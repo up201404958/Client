@@ -21,9 +21,9 @@ public class Register {
 
 	protected JFrame frame;
 	private JTextField textField;
-	private JTextField textField_1;
+
 	private JTextField textField_2;
-	private JTextField textField_3;
+
 	public JLabel label;
 	
 	Client user=new Client();

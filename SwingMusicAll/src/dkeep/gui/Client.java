@@ -13,14 +13,5 @@ public class Client {
 	public void printClient(){
 		System.out.println("USERNAME:"+this.user+" PASSWORD: "+this.password);
 	}
-	public void sendToServer(){
-		//write Strings to file 
-		//send thourhg socket 
-		//wait response 
-	}
-	public void checkServerResponse() {
-		
-		
-	}
-
+	
 }

@@ -1,50 +1,35 @@
 package dkeep.gui;
 
-import java.awt.Cursor;
 
-import java.awt.EventQueue;
+
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.awt.image.BufferedImage;
+
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+
 
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import javax.swing.JEditorPane;
-import javax.swing.JSlider;
-import java.awt.Color;
-import java.awt.GridLayout;
-import javax.swing.JScrollBar;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class Logged extends Main {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	protected JFrame frame;
 	private JTextField txtSearch;
-	private JTextField changePass;
-	private JTextField confirmPass;
-	protected JLabel user_name;
+	public JLabel user_name;
+	private JTextField textField;
+	private JTextField textField_1;
+	protected JLabel confirm;
 	/**
 	 * Launch the application.
 	 */
@@ -78,22 +63,11 @@ public class Logged extends Main {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 898, 451);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{101, 338, 406, 0};
-		gridBagLayout.rowHeights = new int[]{37, 118, 45, 194, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		frame.getContentPane().setLayout(gridBagLayout);
+		frame.getContentPane().setLayout(null);
 		
 		JPanel panel_1 = new JPanel();
-		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.anchor = GridBagConstraints.NORTH;
-		gbc_panel_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_panel_1.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_1.gridwidth = 3;
-		gbc_panel_1.gridx = 0;
-		gbc_panel_1.gridy = 0;
-		frame.getContentPane().add(panel_1, gbc_panel_1);
+		panel_1.setBounds(0, 0, 899, 61);
+		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(new MigLayout("", "[][19.00][19.00][20.00][87.00][659.00]", "[]"));
 		
 		txtSearch = new JTextField();
@@ -111,14 +85,9 @@ public class Logged extends Main {
 		panel_1.add(btnLogOut, "cell 5 0,alignx right");
 		
 		JPanel panel = new JPanel();
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.fill = GridBagConstraints.VERTICAL;
-		gbc_panel.insets = new Insets(0, 0, 0, 5);
-		gbc_panel.gridheight = 3;
-		gbc_panel.gridx = 0;
-		gbc_panel.gridy = 1;
-		frame.getContentPane().add(panel, gbc_panel);
-		panel.setLayout(new MigLayout("", "[]", "[][][][][][][][][][][][][]"));
+		panel.setBounds(0, 66, 166, 363);
+		frame.getContentPane().add(panel);
+		panel.setLayout(new MigLayout("", "[]", "[][][][][][][][][][][][][][][][]"));
 		
 		JButton btnLastPlayed = new JButton("Last Played");
 		btnLastPlayed.addMouseListener(new MouseAdapter() {
@@ -136,7 +105,6 @@ public class Logged extends Main {
 			public void mouseClicked(MouseEvent e) {
 				user.goToSongs();
 				user.run("SNGS ALL");
-				user.run("SNGPLST "+user.username);
 			}
 		});
 		panel.add(btnSongs, "cell 0 1");
@@ -187,116 +155,69 @@ public class Logged extends Main {
 		});
 		panel.add(btnAddPlaylist, "cell 0 6");
 		
-		JPanel panel_2 = new JPanel();
-		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
-		gbc_panel_2.gridheight = 2;
-		gbc_panel_2.gridwidth = 2;
-		gbc_panel_2.anchor = GridBagConstraints.NORTH;
-		gbc_panel_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_panel_2.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_2.gridx = 1;
-		gbc_panel_2.gridy = 1;
-		frame.getContentPane().add(panel_2, gbc_panel_2);
-		panel_2.setLayout(new MigLayout("", "[125.00px][20.00,grow][grow][][][][][][][][][grow][-2.00][16.00][][20.00][156.00][][][][86px][][-56.00][][-23.00][][][-27.00][][][][]", "[][20px,grow][][][grow][grow][20px][][][][22.00px,grow,top][][][grow][][][grow]"));
+		JLabel lblDownloads = new JLabel("Downloads");
+		panel.add(lblDownloads, "cell 0 7");
+		
+		JButton mySongs = new JButton("My Songs");
+		mySongs.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.run("MYSNGS "+user.username);
+				user.run("SNGPLST "+user.username);
+				user.goToMySongs();
+			}
+		});
+		panel.add(mySongs, "cell 0 8");
 		
 		user_name = new JLabel();
-		user_name.setFont(new Font("Orator Std", Font.BOLD | Font.ITALIC, 25));
-		panel_2.add( user_name, "cell 0 0 7 8");
+		user_name.setFont(new Font("Orator Std", Font.BOLD, 25));
+		user_name.setBounds(193, 98, 348, 44);
+		frame.getContentPane().add(user_name);
 		
 		JLabel lblChangePassword = new JLabel("Change Password");
-		panel_2.add(lblChangePassword, "cell 3 8");
+		lblChangePassword.setBounds(193, 182, 138, 16);
+		frame.getContentPane().add(lblChangePassword);
 		
 		JLabel lblConfirmPassword = new JLabel("Confirm Password");
-		panel_2.add(lblConfirmPassword, "cell 3 12");
+		lblConfirmPassword.setBounds(193, 215, 123, 16);
+		frame.getContentPane().add(lblConfirmPassword);
 		
-		confirmPass = new JTextField();
-		panel_2.add(confirmPass, "cell 10 12,growx");
-		confirmPass.setColumns(10);
+		textField = new JTextField();
+		textField.setBounds(325, 177, 130, 26);
+		frame.getContentPane().add(textField);
+		textField.setColumns(10);
 		
-		JButton btnChange = new JButton("Change");
-		panel_2.add(btnChange, "flowx,cell 16 12");
+		textField_1 = new JTextField();
+		textField_1.setBounds(325, 210, 130, 26);
+		frame.getContentPane().add(textField_1);
+		textField_1.setColumns(10);
 		
-		JPanel panel_4 = new JPanel();
-		panel_2.add(panel_4, "cell 14 2 16 15,alignx center,aligny center");
-		
-		ImageIcon regular = new ImageIcon(ClassLoader.getSystemResource("logomedio.png"));
-		ImageIcon hovering = new ImageIcon(ClassLoader.getSystemResource("logomedio.png"));
-		ImageIcon clicking = new ImageIcon(ClassLoader.getSystemResource("logomedio.png"));
-		BufferedImage img = ImageIO.read(ClassLoader.getSystemResource("logomedio.png"));
-		
-		
-		final JLabel lblMusicall = new JLabel(regular);
-		lblMusicall.setBounds(211, 28, 0, 0);
-		lblMusicall.addMouseListener(new MouseAdapter() {
+		JButton btnConfirm = new JButton("Confirm");
+		btnConfirm.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mousePressed(MouseEvent e) {
-				int pixel = img.getRGB(e.getPoint().x, e.getPoint().y);
-				if( (pixel>>24) == 0x00 ) {
-					return;
-				}
-				else { 
-					System.out.println("I was clicked! I really look like a button.");
-					lblMusicall.setIcon(clicking);
-				}
-				super.mousePressed(e);
-			}
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				int pixel = img.getRGB(e.getPoint().x, e.getPoint().y);
-				if( (pixel>>24) == 0x00 ) {
-					lblMusicall.setIcon(regular);
-				}
-				else {
-					lblMusicall.setIcon(hovering);					
-				}
-				super.mouseReleased(e);
+			public void mouseClicked(MouseEvent e) {
+				String new_pass = textField.getText();
+				String confirm_pass = textField_1.getText();
+				
+				if(!new_pass.equals(confirm_pass))
+					confirm.setText("Passwords dont match");
+				else if(new_pass.equals("") || confirm_pass.equals(""))
+					confirm.setText("Blank Fields Forever");
+				else
+					user.run("CHNGPASS "+confirm_pass+" "+user.username);
+			
 			}
 		});
-		lblMusicall.addMouseMotionListener(new MouseMotionAdapter() {
-			@Override
-			public void mouseMoved(MouseEvent e) {
-				int pixel = img.getRGB(e.getPoint().x, e.getPoint().y);
-				if( (pixel>>24) == 0x00 ) {
-					lblMusicall.setIcon(regular);
-					lblMusicall.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-				}
-				else {
-					lblMusicall.setIcon(hovering);
-					lblMusicall.setCursor(new Cursor(Cursor.HAND_CURSOR));
-				}
-				super.mouseMoved(e);
-			}
-		});
-		panel_4.setLayout(null);
-		panel_4.add(lblMusicall);
+		btnConfirm.setBounds(508, 210, 117, 29);
+		frame.getContentPane().add(btnConfirm);
 		
-		JPanel panel_5 = new JPanel();
-		panel_5.setBounds(16, 44, 393, 32);
-		panel_4.add(panel_5);
-		panel_5.setLayout(new MigLayout("", "[][][][75.00][][106.00][149.00][67.00][]", "[grow]"));
+		confirm = new JLabel();
+		confirm.setBounds(518, 251, 107, 26);
+		frame.getContentPane().add(confirm);
 		
-		changePass = new JTextField();
-		panel_2.add(changePass, "cell 10 8,growx");
-		changePass.setColumns(10);
-		
-		JPanel panel_3 = new JPanel();
-		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
-		gbc_panel_3.gridwidth = 2;
-		gbc_panel_3.insets = new Insets(0, 0, 0, 5);
-		gbc_panel_3.fill = GridBagConstraints.BOTH;
-		gbc_panel_3.gridx = 1;
-		gbc_panel_3.gridy = 3;
-		frame.getContentPane().add(panel_3, gbc_panel_3);
-		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
-		gl_panel_3.setHorizontalGroup(
-			gl_panel_3.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 723, Short.MAX_VALUE)
-		);
-		gl_panel_3.setVerticalGroup(
-			gl_panel_3.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 200, Short.MAX_VALUE)
-		);
-		panel_3.setLayout(gl_panel_3);
-
+	
+	}
+	public void setText(String s) {
+		confirm.setText(s);
 	}
 }

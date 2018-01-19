@@ -1,10 +1,7 @@
 package dkeep.gui;
 
-import java.awt.Window;
 import java.io.IOException;
 
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
 import dkeep.client.Client;
 
@@ -15,18 +12,18 @@ import dkeep.client.Client;
 public class Main {
 
 	protected String username;
-	
+	public MusicThread Song;
 	public static Logged logged;
 	public static NotLogged notlogged;
 	public static Register register;
 	public static CreatePlaylist createplaylist;
 	public static Search search;
-	public static Playlist playlist;
 	public static LastPlayed lastplayed;
 	public static Songs songs;
 	public static Albuns albuns;
 	public static Artists artists;
 	public static MyPlaylists myplaylists;
+	public static MySongs mysongs;
 	public static ThisAlbum thisalbum;
 	public static ThisPlaylist thisplaylist;
 
@@ -44,6 +41,7 @@ public class Main {
 		lastplayed = new LastPlayed();
 		createplaylist = new CreatePlaylist();
 		myplaylists = new MyPlaylists();
+		mysongs = new MySongs();
 		thisalbum = new ThisAlbum();
 		thisplaylist = new ThisPlaylist();
 		//starting page
@@ -66,6 +64,7 @@ public class Main {
 		logged.frame.setVisible(false);
 		createplaylist.frame.setVisible(false);
 		thisplaylist.frame.setVisible(false);
+		mysongs.frame.setVisible(false);
 		//set current frame visible
 		notlogged.frame.setVisible(true);
 		//reset tables
@@ -75,7 +74,7 @@ public class Main {
 		myplaylists.tableModel.setRowCount(0);
 		thisalbum.tableModel.setRowCount(0);
 		thisplaylist.tableModel.setRowCount(0);
-		
+		mysongs.tableModel.setRowCount(0);
 	}
 	public void goToRegister() {
 		notlogged.frame.setVisible(false);
@@ -91,6 +90,7 @@ public class Main {
 		createplaylist.frame.setVisible(false);
 		thisplaylist.frame.setVisible(false);
 		thisalbum.frame.setVisible(false);
+		mysongs.frame.setVisible(false);
 		//set current frame visible
 		logged.frame.setVisible(true);
 		//set names
@@ -102,6 +102,7 @@ public class Main {
 		myplaylists.tableModel.setRowCount(0);
 		thisalbum.tableModel.setRowCount(0);
 		thisplaylist.tableModel.setRowCount(0);
+		mysongs.tableModel.setRowCount(0);
 	}
 	public void goToArtists() {
 		//shut down possible window
@@ -112,6 +113,7 @@ public class Main {
 		createplaylist.frame.setVisible(false);
 		thisplaylist.frame.setVisible(false);
 		thisalbum.frame.setVisible(false);
+		mysongs.frame.setVisible(false);
 		//set current frame visible
 		artists.frame.setVisible(true);
 		//set names
@@ -122,7 +124,7 @@ public class Main {
 		myplaylists.tableModel.setRowCount(0);
 		thisalbum.tableModel.setRowCount(0);
 		thisplaylist.tableModel.setRowCount(0);
-		
+		mysongs.tableModel.setRowCount(0);
 	}
 	public void goToSongs() {
 		//
@@ -133,6 +135,7 @@ public class Main {
 		artists.frame.setVisible(false);
 		thisplaylist.frame.setVisible(false);
 		thisalbum.frame.setVisible(false);
+		mysongs.frame.setVisible(false);
 		//
 		songs.frame.setVisible(true);
 		//set name
@@ -143,6 +146,7 @@ public class Main {
 		myplaylists.tableModel.setRowCount(0);
 		thisalbum.tableModel.setRowCount(0);
 		thisplaylist.tableModel.setRowCount(0);
+		mysongs.tableModel.setRowCount(0);
 	}
 	public void goToAlbuns() {
 		//
@@ -153,6 +157,7 @@ public class Main {
 		songs.frame.setVisible(false);
 		thisplaylist.frame.setVisible(false);
 		thisalbum.frame.setVisible(false);
+		mysongs.frame.setVisible(false);
 		//
 		albuns.frame.setVisible(true);
 		albuns.user_name.setText(user.username);
@@ -162,6 +167,7 @@ public class Main {
 		myplaylists.tableModel.setRowCount(0);
 		thisalbum.tableModel.setRowCount(0);
 		thisplaylist.tableModel.setRowCount(0);
+		mysongs.tableModel.setRowCount(0);
 	}
 	public void goToThisAlbum() {
 		albuns.frame.setVisible(false);
@@ -184,6 +190,7 @@ public class Main {
 		songs.frame.setVisible(false);
 		myplaylists.frame.setVisible(false);
 		thisplaylist.frame.setVisible(false);
+		mysongs.frame.setVisible(false);
 		//
 		createplaylist.frame.setVisible(true);
 		createplaylist.username.setText(user.username);
@@ -194,6 +201,7 @@ public class Main {
 		myplaylists.tableModel.setRowCount(0);
 		thisalbum.tableModel.setRowCount(0);
 		thisplaylist.tableModel.setRowCount(0);
+		mysongs.tableModel.setRowCount(0);
 	}
 	public void goToMyPlaylists() {
 		//
@@ -204,6 +212,7 @@ public class Main {
 		createplaylist.frame.setVisible(false);
 		thisplaylist.frame.setVisible(false);
 		thisalbum.frame.setVisible(false);
+		mysongs.frame.setVisible(false);
 		//
 		myplaylists.frame.setVisible(true);
 		myplaylists.user_name.setText(user.username);
@@ -213,6 +222,27 @@ public class Main {
 		songs.tableModel.setRowCount(0);
 		thisalbum.tableModel.setRowCount(0);
 		thisplaylist.tableModel.setRowCount(0);
+		mysongs.tableModel.setRowCount(0);
+	}
+	public void goToMySongs() {
+		//
+		logged.frame.setVisible(false);
+		artists.frame.setVisible(false);
+		albuns.frame.setVisible(false);
+		songs.frame.setVisible(false);
+		createplaylist.frame.setVisible(false);
+		thisplaylist.frame.setVisible(false);
+		thisalbum.frame.setVisible(false);
+		//
+		mysongs.frame.setVisible(true);
+		mysongs.user_name.setText(user.username);
+		////reset tables
+		artists.tableModel.setRowCount(0);
+		albuns.tableModel.setRowCount(0);
+		songs.tableModel.setRowCount(0);
+		thisalbum.tableModel.setRowCount(0);
+		thisplaylist.tableModel.setRowCount(0);
+		myplaylists.tableModel.setRowCount(0);
 	}
 	public void goToThisPlaylist() {
 		logged.frame.setVisible(false);
@@ -222,6 +252,7 @@ public class Main {
 		createplaylist.frame.setVisible(false);
 		myplaylists.frame.setVisible(false);
 		thisalbum.frame.setVisible(false);
+		mysongs.frame.setVisible(false);
 		//set names
 		thisplaylist.user_name.setText(user.username);
 		thisplaylist.frame.setVisible(true);
@@ -231,6 +262,7 @@ public class Main {
 		songs.tableModel.setRowCount(0);
 		thisalbum.tableModel.setRowCount(0);
 		myplaylists.tableModel.setRowCount(0);
+
 	}
 	public void refreshPage() {
 		//thisplaylist.tableModel.setRowCount(0);

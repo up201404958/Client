@@ -4,18 +4,18 @@ import java.awt.EventQueue;
 import java.awt.Font;
 
 import javax.swing.JButton;
-import javax.swing.JEditorPane;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
+
 
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import net.miginfocom.swing.MigLayout;
-import java.awt.GridLayout;
+
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.event.MouseAdapter;
@@ -31,7 +31,14 @@ public class Albuns extends Main {
 	protected String[] col = {"Id","Name","Year","Genre","Artist"};
 	
 	public DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
-		 @Override
+	
+	
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		@Override
 		 public boolean isCellEditable(int row, int column)
 		 {
 		    return false;//This causes all cells to be not editable
@@ -169,6 +176,20 @@ public class Albuns extends Main {
 		user_name.setBounds(641, 21, 127, 25);
 		panel_1.add(user_name);
 		user_name.setText(username);
+		
+		
+		JLabel lblDownloads = new JLabel("Downloads");
+		panel.add(lblDownloads, "cell 0 7");
+		JButton mySongs = new JButton("My Songs");
+		mySongs.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.run("MYSNGS "+user.username);
+				user.run("SNGPLST "+user.username);
+				user.goToMySongs();
+			}
+		});
+		panel.add(mySongs, "cell 0 8");
 		
 		JLabel lblNewLabel = new JLabel("ALBUMS");
 		lblNewLabel.setFont(new Font("Orator Std", Font.BOLD, 30));
