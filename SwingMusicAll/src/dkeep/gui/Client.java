@@ -9,7 +9,6 @@ public class Client {
 		this.user=user;
 		this.password=pass;
 	}
-	
 	public void printClient(){
 		System.out.println("USERNAME:"+this.user+" PASSWORD: "+this.password);
 	}

@@ -10,7 +10,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import net.miginfocom.swing.MigLayout;
@@ -24,7 +23,6 @@ import java.awt.event.MouseEvent;
 public class MyPlaylists extends Main{
 
 	public JFrame frame;
-	private JTextField txtSearch;
 	protected JLabel user_name;
 	protected String[] col = {"Id","Name"};
 	
@@ -147,12 +145,6 @@ public class MyPlaylists extends Main{
 		btnHome.setBounds(16, 16, 81, 29);
 		panel_1.add(btnHome);
 		
-		txtSearch = new JTextField();
-		txtSearch.setBounds(128, 16, 73, 26);
-		txtSearch.setText("Search");
-		panel_1.add(txtSearch);
-		txtSearch.setColumns(10);
-		
 		JButton btnLogOut = new JButton("Log out");
 		btnLogOut.addMouseListener(new MouseAdapter() {
 			@Override
@@ -180,21 +172,7 @@ public class MyPlaylists extends Main{
 		table = new JTable(tableModel);
 		scrollPane.setViewportView(table);
 		
-		//CHOOSE LINES
-		/*ListSelectionModel select = table.getSelectionModel();
-		select.addListSelectionListener(new ListSelectionListener() {
 
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				if(! select.isSelectionEmpty()) {
-					int row=select.getMinSelectionIndex();
-					String namee = (String) table.getValueAt(row, 1);
-					JOptionPane.showMessageDialog(null, namee);
-				}
-				
-			}
-			
-		});*/
 		
 		table.addMouseListener(new java.awt.event.MouseAdapter() {
 			@Override
@@ -207,9 +185,8 @@ public class MyPlaylists extends Main{
 						String text = (String) table.getValueAt(row, 1);
 						thisplaylist.playlist_name.setText(text);
 						thisplaylist.setID(id);
-						user.run("PLSTSNG "+thisplaylist.getID());
 						user.goToThisPlaylist();
-		        			//JOptionPane.showMessageDialog(null, (String) table.getValueAt(row, 1));
+						user.run("PLSTSNG "+thisplaylist.getID());
 					}
 				}
 			}
@@ -221,9 +198,9 @@ public class MyPlaylists extends Main{
 		mySongs.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				user.goToMySongs();
 				user.run("MYSNGS "+user.username);
 				user.run("SNGPLST "+user.username);
-				user.goToMySongs();
 			}
 		});
 		panel.add(mySongs, "cell 0 8");

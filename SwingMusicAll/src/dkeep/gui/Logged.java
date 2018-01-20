@@ -25,7 +25,6 @@ import java.awt.event.ActionEvent;
 public class Logged extends Main {
 
 	protected JFrame frame;
-	private JTextField txtSearch;
 	public JLabel user_name;
 	private JTextField textField;
 	private JTextField textField_1;
@@ -70,11 +69,6 @@ public class Logged extends Main {
 		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(new MigLayout("", "[][19.00][19.00][20.00][87.00][659.00]", "[]"));
 		
-		txtSearch = new JTextField();
-		txtSearch.setText("Search");
-		panel_1.add(txtSearch, "cell 4 0,alignx center");
-		txtSearch.setColumns(10);
-		
 		JButton btnLogOut = new JButton("Log out");
 		btnLogOut.addMouseListener(new MouseAdapter() {
 			@Override
@@ -94,7 +88,15 @@ public class Logged extends Main {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToLastPlayed();
-				//user.run("LSPL ALL");
+				int size = lastplay.size()-1;
+				System.out.println("jejrjerjejr" + size);
+				if(size > 0) {
+					for(int i=size;i>=0;i--) {
+						String[] this_row = lastplay.get(i).split(",");
+						Object[] row = {this_row[0],this_row[1],this_row[2],this_row[3],this_row[4],this_row[5]};
+						lastplayed.tableModel.addRow(row);
+					}
+				}
 			}
 		});
 		panel.add(btnLastPlayed, "cell 0 0");
@@ -162,9 +164,9 @@ public class Logged extends Main {
 		mySongs.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				user.goToMySongs();
 				user.run("MYSNGS "+user.username);
 				user.run("SNGPLST "+user.username);
-				user.goToMySongs();
 			}
 		});
 		panel.add(mySongs, "cell 0 8");

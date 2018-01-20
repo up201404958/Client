@@ -13,7 +13,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -31,7 +30,6 @@ import java.awt.event.MouseEvent;
 public class MySongs extends Main{
 
 	protected JFrame frame;
-	private JTextField txtSearch;
 	public JTable table;
 	protected JLabel user_name;
 	protected String[] col = {"Id","Name","Album","Artist","Duration","Genre","BPM","Key","AddTo"};
@@ -44,8 +42,7 @@ public class MySongs extends Main{
 	public DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
 		 
 		@Override
-		 public boolean isCellEditable(int row, int column)
-		 {  
+		 public boolean isCellEditable(int row, int column){  
 			if(column==8) {
 				if(user.playlist=true)
 					return true;
@@ -148,12 +145,6 @@ public class MySongs extends Main{
 		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		
-		txtSearch = new JTextField();
-		txtSearch.setBounds(105, 16, 85, 26);
-		txtSearch.setText("Search");
-		panel_1.add(txtSearch);
-		txtSearch.setColumns(10);
-		
 		JButton btnLogOut = new JButton("Log out");
 		btnLogOut.addMouseListener(new MouseAdapter() {
 			@Override
@@ -200,6 +191,10 @@ public class MySongs extends Main{
 					Song = new MusicThread((String) table.getValueAt(row, 0));
 					Song.start();
 					Flags.flag=true;
+					String line = (String) table.getValueAt(row,0)+","+(String)table.getValueAt(row,1)+","+(String)table.getValueAt(row,2)+","+(String)table.getValueAt(row,3)+","+(String) table.getValueAt(row,4)+","+(String) table.getValueAt(row,5);
+					System.out.println(line);
+					lastplay.add(line);
+					System.out.println(lastplay.size());
 				}
 
 			}
@@ -265,10 +260,8 @@ public class MySongs extends Main{
 		table.addMouseListener(new java.awt.event.MouseAdapter() {
 			@Override
 		    public void mouseClicked(java.awt.event.MouseEvent evt) {
-				
 				row = table.rowAtPoint(evt.getPoint());
 				System.out.println(row);
-			
 			}
 		});
 		
@@ -278,13 +271,13 @@ public class MySongs extends Main{
 		mySongs.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				user.goToMySongs();
 				user.run("MYSNGS "+user.username);
 				user.run("SNGPLST "+user.username);
-				user.goToMySongs();
+			
 			}
 		});
 		panel.add(mySongs, "cell 0 8");
-		
-		
 	}
-}
+	
+	}

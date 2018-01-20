@@ -14,7 +14,7 @@ public class MusicThread extends Thread {
 		}
 		@Override
 		 public void run(){
-		//	while(true) {
+		
 			Flags.activethread=true;
 			TinySound.init();
 			String path = "music/music_" + this.id+".wav";
@@ -22,38 +22,28 @@ public class MusicThread extends Thread {
 			try {
 				sleep(2000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			song.play(false);
 			while (song.playing()== true){
-				//if (song.playing()==false || Flags.flag==false )break;		
-				if (Flags.flag==false )break;	
-				
+				if (Flags.flag==false)
+					break;	
 				if(Flags.stoped==true){
-
 					song.pause();
-					
 					while(true){
 						System.out.println("Hello");
-						
 						if(Flags.stoped==false) {
 							song.resume();
 							break;
 						}
-						
 					}
-						
 				}
-			
-				
 			}
+			
 			System.out.println("Hshuttto");
 			song.stop();
 			Flags.activethread=false;
 			TinySound.shutdown();
-	      
-	   // }
-			}
+	      }
 }
 

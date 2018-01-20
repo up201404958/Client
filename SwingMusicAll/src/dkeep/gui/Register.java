@@ -17,7 +17,7 @@ import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class Register {
+public class Register extends Main{
 
 	protected JFrame frame;
 	private JTextField textField;

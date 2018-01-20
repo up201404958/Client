@@ -8,7 +8,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JTable;
@@ -20,7 +19,6 @@ import java.awt.event.MouseEvent;
 public class Songs extends Main{
 
 	protected JFrame frame;
-	private JTextField txtSearch;
 	public JTable table;
 	protected JLabel user_name;
 	protected String[] col = {"Id","Name","Genre","BPM","Key","Duration","Artist","Album"};
@@ -130,12 +128,6 @@ public class Songs extends Main{
 		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		
-		txtSearch = new JTextField();
-		txtSearch.setBounds(105, 16, 85, 26);
-		txtSearch.setText("Search");
-		panel_1.add(txtSearch);
-		txtSearch.setColumns(10);
-		
 		JButton btnLogOut = new JButton("Log out");
 		btnLogOut.addMouseListener(new MouseAdapter() {
 			@Override
@@ -198,9 +190,9 @@ public class Songs extends Main{
 		mySongs.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				user.goToMySongs();
 				user.run("MYSNGS "+user.username);
 				user.run("SNGPLST "+user.username);
-				user.goToMySongs();
 			}
 		});
 		panel.add(mySongs, "cell 0 8");

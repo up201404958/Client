@@ -11,7 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import net.miginfocom.swing.MigLayout;
@@ -26,7 +25,6 @@ public class ThisPlaylist extends Main {
 
 
 	protected JFrame frame;
-	private JTextField txtSearch;
 	protected JLabel user_name;
 	private JTable table;
 	protected JLabel playlist_name;
@@ -79,7 +77,7 @@ public class ThisPlaylist extends Main {
 		panel.setBackground(new Color(204, 255, 204));
 		panel.setBounds(16, 81, 151, 332);
 		frame.getContentPane().add(panel);
-		panel.setLayout(new MigLayout("", "[]", "[][][][][][][][][][][][][][][][][][][][][]"));
+		panel.setLayout(new MigLayout("", "[]", "[][][][][][][][][][][][][][][][][][][][][][]"));
 		
 		JButton btnLastPlayed = new JButton("Last Played");
 		panel.add(btnLastPlayed, "cell 0 0");
@@ -129,15 +127,6 @@ public class ThisPlaylist extends Main {
 		
 		panel.add(MyPlaylists, "cell 0 6");
 		
-		JButton CreatePlaylist = new JButton("Create Playlist");
-		CreatePlaylist.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				user.goToCreatePlaylist();
-			}
-		});
-		panel.add(CreatePlaylist, "cell 0 8");
-		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(204, 255, 204));
 		panel_1.setBounds(16, 16, 866, 61);
@@ -153,12 +142,6 @@ public class ThisPlaylist extends Main {
 		});
 		btnHome.setBounds(16, 16, 81, 29);
 		panel_1.add(btnHome);
-		
-		txtSearch = new JTextField();
-		txtSearch.setBounds(128, 16, 73, 26);
-		txtSearch.setText("Search");
-		panel_1.add(txtSearch);
-		txtSearch.setColumns(10);
 		
 		JButton btnLogOut = new JButton("Log out");
 		btnLogOut.addMouseListener(new MouseAdapter() {
@@ -213,7 +196,6 @@ public class ThisPlaylist extends Main {
 			public void mouseClicked(MouseEvent e) {
 				thisplaylist.tableModel.setRowCount(0);
 				user.run("KPLSTSNG "+thisplaylist.getID());
-				//user.refreshPage();
 
 			}
 		});
@@ -267,8 +249,17 @@ public class ThisPlaylist extends Main {
 		btnResume.setBounds(699, 379, 117, 29);
 		frame.getContentPane().add(btnResume);
 		
+		JButton CreatePlaylist = new JButton("Create Playlist");
+		CreatePlaylist.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToCreatePlaylist();
+			}
+		});
+		panel.add(CreatePlaylist, "cell 0 7");
+		
 		JLabel lblDownloads = new JLabel("Downloads");
-		panel.add(lblDownloads, "cell 0 7");
+		panel.add(lblDownloads, "cell 0 8");
 		JButton mySongs = new JButton("My Songs");
 		mySongs.addMouseListener(new MouseAdapter() {
 			@Override
@@ -278,7 +269,7 @@ public class ThisPlaylist extends Main {
 				user.goToMySongs();
 			}
 		});
-		panel.add(mySongs, "cell 0 8");
+		panel.add(mySongs, "cell 0 9");
 		
 		
 	}

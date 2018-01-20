@@ -11,7 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -27,7 +26,6 @@ import java.awt.Color;
 public class Artists extends Main{
 
 	protected JFrame frame;
-	private JTextField txtSearch;
 	protected JTable artists_table;
 	protected String[] col = {"Artist Name","Country","Genre"};
 	protected JLabel user_name;
@@ -150,12 +148,6 @@ public class Artists extends Main{
 		panel_1.setLayout(null);
 		panel_1.add(btnHome);
 		
-		txtSearch = new JTextField();
-		txtSearch.setBounds(128, 16, 73, 26);
-		txtSearch.setText("Search");
-		panel_1.add(txtSearch);
-		txtSearch.setColumns(10);
-		
 		JButton btnLogOut = new JButton("Log out");
 		btnLogOut.setBounds(758, 16, 92, 29);
 		btnLogOut.addMouseListener(new MouseAdapter() {
@@ -193,6 +185,18 @@ public class Artists extends Main{
 		scrollPane.setViewportView(artists_table);
 		artists_table.add(new JScrollPane(scrTbl));
 		
+		JLabel lblDownloads = new JLabel("Downloads");
+		panel.add(lblDownloads, "cell 0 7");
+		JButton mySongs = new JButton("My Songs");
+		mySongs.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToMySongs();
+				user.run("MYSNGS "+user.username);
+				user.run("SNGPLST "+user.username);
+			}
+		});
+		panel.add(mySongs, "cell 0 8");
 
 
 	}

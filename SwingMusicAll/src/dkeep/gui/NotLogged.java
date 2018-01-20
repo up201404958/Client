@@ -206,29 +206,7 @@ public class NotLogged extends Main implements ActionListener {
 												panel.setBackground(Color.DARK_GRAY);
 												contentPane.add(panel);
 												panel.setLayout(new MigLayout("", "[][][][][][106.00][grow][][grow]", "[grow]"));
-												/*
-												JEditorPane dtrpnNameArtist = new JEditorPane();
-												dtrpnNameArtist.setText("Name song");
-												panel.add(dtrpnNameArtist, "cell 3 0,alignx center,aligny center");
-												
-												JEditorPane dtrpnSong = new JEditorPane();
-												dtrpnSong.setText("Artist");
-												panel.add(dtrpnSong, "cell 4 0,alignx center,aligny center");
-												
-												JEditorPane dtrpnAlbum = new JEditorPane();
-												dtrpnAlbum.setText("Album");
-												panel.add(dtrpnAlbum, "cell 5 0,alignx center,aligny center");
-												
-												JEditorPane dtrpnTime = new JEditorPane();
-												dtrpnTime.setText("Time");
-												panel.add(dtrpnTime, "cell 6 0,alignx center,aligny center");
-												
-												JButton btnPauseplay = new JButton("Pause/Play");
-												btnPauseplay.setBackground(new Color(211, 211, 211));
-												panel.add(btnPauseplay, "cell 7 0,aligny center");
-												
-												/*JSlider slider = new JSlider();
-												panel.add(slider, "cell 8 0,aligny center");*/
+				
 												image_move.setBounds(346, 110, 200, 157);
 												contentPane.add(image_move);
 												

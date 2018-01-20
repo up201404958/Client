@@ -1,7 +1,9 @@
 package dkeep.gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import javax.swing.JFrame;
 
 import dkeep.client.Client;
 
@@ -13,11 +15,11 @@ public class Main {
 
 	protected String username;
 	public MusicThread Song;
+	protected static ArrayList<String> lastplay;
 	public static Logged logged;
 	public static NotLogged notlogged;
 	public static Register register;
 	public static CreatePlaylist createplaylist;
-	public static Search search;
 	public static LastPlayed lastplayed;
 	public static Songs songs;
 	public static Albuns albuns;
@@ -26,12 +28,13 @@ public class Main {
 	public static MySongs mysongs;
 	public static ThisAlbum thisalbum;
 	public static ThisPlaylist thisplaylist;
+	
 
 	public static Client user = new Client();
 	
 	public static void main(String[] args) throws IOException {
 		
-		//initialize frames
+		lastplay = new ArrayList<String>();
 		logged = new Logged();
 		notlogged = new NotLogged();
 		register = new Register();
@@ -55,7 +58,7 @@ public class Main {
 		return this.username;
 	}
 	public void goToLogin() {
-		//shut down possible window
+		
 		register.frame.setVisible(false);
 		artists.frame.setVisible(false);
 		albuns.frame.setVisible(false);
@@ -81,195 +84,104 @@ public class Main {
 		register.frame.setVisible(true);
 	}
 	public void goToHomepage() {
+		
 		//shut down possible window
-		notlogged.frame.setVisible(false);
-		artists.frame.setVisible(false);
-		albuns.frame.setVisible(false);
-		myplaylists.frame.setVisible(false);
-		songs.frame.setVisible(false);
-		createplaylist.frame.setVisible(false);
-		thisplaylist.frame.setVisible(false);
-		thisalbum.frame.setVisible(false);
-		mysongs.frame.setVisible(false);
-		//set current frame visible
-		logged.frame.setVisible(true);
+		this.changeWindow(logged.frame);
 		//set names
 		logged.user_name.setText(user.username);
 		//reset tables
-		artists.tableModel.setRowCount(0);
-		albuns.tableModel.setRowCount(0);
-		songs.tableModel.setRowCount(0);
-		myplaylists.tableModel.setRowCount(0);
-		thisalbum.tableModel.setRowCount(0);
-		thisplaylist.tableModel.setRowCount(0);
-		mysongs.tableModel.setRowCount(0);
+		this.resetTables();
+		
 	}
 	public void goToArtists() {
-		//shut down possible window
-		logged.frame.setVisible(false);
-		albuns.frame.setVisible(false);
-		myplaylists.frame.setVisible(false);
-		songs.frame.setVisible(false);
-		createplaylist.frame.setVisible(false);
-		thisplaylist.frame.setVisible(false);
-		thisalbum.frame.setVisible(false);
-		mysongs.frame.setVisible(false);
-		//set current frame visible
-		artists.frame.setVisible(true);
+		
+		this.changeWindow(artists.frame);
 		//set names
 		artists.user_name.setText(user.username);
 		//reset tables
-		albuns.tableModel.setRowCount(0);
-		songs.tableModel.setRowCount(0);
-		myplaylists.tableModel.setRowCount(0);
-		thisalbum.tableModel.setRowCount(0);
-		thisplaylist.tableModel.setRowCount(0);
-		mysongs.tableModel.setRowCount(0);
+		this.resetTables();
 	}
 	public void goToSongs() {
-		//
-		logged.frame.setVisible(false);
-		albuns.frame.setVisible(false);
-		myplaylists.frame.setVisible(false);
-		createplaylist.frame.setVisible(false);
-		artists.frame.setVisible(false);
-		thisplaylist.frame.setVisible(false);
-		thisalbum.frame.setVisible(false);
-		mysongs.frame.setVisible(false);
-		//
-		songs.frame.setVisible(true);
+		
+		this.changeWindow(songs.frame);
 		//set name
 		songs.user_name.setText(user.username);
 		//reset tables
-		artists.tableModel.setRowCount(0);
-		albuns.tableModel.setRowCount(0);
-		myplaylists.tableModel.setRowCount(0);
-		thisalbum.tableModel.setRowCount(0);
-		thisplaylist.tableModel.setRowCount(0);
-		mysongs.tableModel.setRowCount(0);
+		this.resetTables();
 	}
 	public void goToAlbuns() {
-		//
-		logged.frame.setVisible(false);
-		myplaylists.frame.setVisible(false);
-		createplaylist.frame.setVisible(false);
-		artists.frame.setVisible(false);
-		songs.frame.setVisible(false);
-		thisplaylist.frame.setVisible(false);
-		thisalbum.frame.setVisible(false);
-		mysongs.frame.setVisible(false);
-		//
-		albuns.frame.setVisible(true);
+		
+		this.changeWindow(albuns.frame);
 		albuns.user_name.setText(user.username);
-		//reset tables
-		artists.tableModel.setRowCount(0);
-		songs.tableModel.setRowCount(0);
-		myplaylists.tableModel.setRowCount(0);
-		thisalbum.tableModel.setRowCount(0);
-		thisplaylist.tableModel.setRowCount(0);
-		mysongs.tableModel.setRowCount(0);
+		this.resetTables();
 	}
 	public void goToThisAlbum() {
-		albuns.frame.setVisible(false);
-		thisalbum.frame.setVisible(true);
+		this.changeWindow(thisalbum.frame);
 		//
 		thisalbum.user_name.setText(user.username);
 		
-		albuns.tableModel.setRowCount(0);
+		this.resetTables();
 		
 	}
 	public void goToLastPlayed() {
-		logged.frame.setVisible(false);
-		lastplayed.frame.setVisible(true);
+		this.changeWindow(lastplayed.frame);
+		lastplayed.user_name.setText(user.username);
+		this.resetTables();
 	}
 	public void goToCreatePlaylist() {
 		//
-		logged.frame.setVisible(false);
-		artists.frame.setVisible(false);
-		albuns.frame.setVisible(false);
-		songs.frame.setVisible(false);
-		myplaylists.frame.setVisible(false);
-		thisplaylist.frame.setVisible(false);
-		mysongs.frame.setVisible(false);
-		//
-		createplaylist.frame.setVisible(true);
+		this.changeWindow(createplaylist.frame);
 		createplaylist.username.setText(user.username);
 		//reset tables
-		artists.tableModel.setRowCount(0);
-		albuns.tableModel.setRowCount(0);
-		songs.tableModel.setRowCount(0);
-		myplaylists.tableModel.setRowCount(0);
-		thisalbum.tableModel.setRowCount(0);
-		thisplaylist.tableModel.setRowCount(0);
-		mysongs.tableModel.setRowCount(0);
+		this.resetTables();
 	}
 	public void goToMyPlaylists() {
 		//
-		logged.frame.setVisible(false);
-		artists.frame.setVisible(false);
-		albuns.frame.setVisible(false);
-		songs.frame.setVisible(false);
-		createplaylist.frame.setVisible(false);
-		thisplaylist.frame.setVisible(false);
-		thisalbum.frame.setVisible(false);
-		mysongs.frame.setVisible(false);
-		//
-		myplaylists.frame.setVisible(true);
+		this.changeWindow(myplaylists.frame);
 		myplaylists.user_name.setText(user.username);
-		////reset tables
-		artists.tableModel.setRowCount(0);
-		albuns.tableModel.setRowCount(0);
-		songs.tableModel.setRowCount(0);
-		thisalbum.tableModel.setRowCount(0);
-		thisplaylist.tableModel.setRowCount(0);
-		mysongs.tableModel.setRowCount(0);
+		this.resetTables();
 	}
 	public void goToMySongs() {
 		//
-		logged.frame.setVisible(false);
-		artists.frame.setVisible(false);
-		albuns.frame.setVisible(false);
-		songs.frame.setVisible(false);
-		createplaylist.frame.setVisible(false);
-		thisplaylist.frame.setVisible(false);
-		thisalbum.frame.setVisible(false);
-		//
-		mysongs.frame.setVisible(true);
+		this.changeWindow(mysongs.frame);
 		mysongs.user_name.setText(user.username);
-		////reset tables
-		artists.tableModel.setRowCount(0);
-		albuns.tableModel.setRowCount(0);
-		songs.tableModel.setRowCount(0);
-		thisalbum.tableModel.setRowCount(0);
-		thisplaylist.tableModel.setRowCount(0);
-		myplaylists.tableModel.setRowCount(0);
+		this.resetTables();
 	}
 	public void goToThisPlaylist() {
+		
+		this.changeWindow(thisplaylist.frame);
+		thisplaylist.user_name.setText(user.username);
+		////reset tables
+		this.resetTables();
+
+	}
+
+	public void changeWindow(JFrame change){
+		notlogged.frame.setVisible(false);
 		logged.frame.setVisible(false);
+		register.frame.setVisible(false);
 		artists.frame.setVisible(false);
 		albuns.frame.setVisible(false);
 		songs.frame.setVisible(false);
-		createplaylist.frame.setVisible(false);
 		myplaylists.frame.setVisible(false);
-		thisalbum.frame.setVisible(false);
 		mysongs.frame.setVisible(false);
-		//set names
-		thisplaylist.user_name.setText(user.username);
-		thisplaylist.frame.setVisible(true);
-		////reset tables
+		createplaylist.frame.setVisible(false);
+		lastplayed.frame.setVisible(false);
+		thisplaylist.frame.setVisible(false);
+		thisalbum.frame.setVisible(false);
+		change.setVisible(true);
+	}
+	
+	public void resetTables() {
+		
 		artists.tableModel.setRowCount(0);
 		albuns.tableModel.setRowCount(0);
 		songs.tableModel.setRowCount(0);
-		thisalbum.tableModel.setRowCount(0);
 		myplaylists.tableModel.setRowCount(0);
-
-	}
-	public void refreshPage() {
-		//thisplaylist.tableModel.setRowCount(0);
-		thisplaylist.frame.repaint();
+		thisalbum.tableModel.setRowCount(0);
+		thisplaylist.tableModel.setRowCount(0);
+		mysongs.tableModel.setRowCount(0);
+		lastplayed.tableModel.setRowCount(0);
 		
 	}
-
-	
-	
 }

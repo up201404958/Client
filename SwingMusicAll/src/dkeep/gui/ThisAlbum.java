@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import javax.swing.JTextField;
+
 import javax.swing.table.DefaultTableModel;
 
 import net.miginfocom.swing.MigLayout;
@@ -23,7 +23,6 @@ import java.awt.event.MouseEvent;
 public class ThisAlbum extends Main {
 
 	protected JFrame frame;
-	private JTextField txtSearch;
 	protected JLabel user_name;
 	protected JLabel album_name;
 	protected JLabel artist_name;
@@ -75,7 +74,7 @@ public class ThisAlbum extends Main {
 		panel.setBackground(new Color(204, 102, 51));
 		panel.setBounds(16, 81, 151, 332);
 		frame.getContentPane().add(panel);
-		panel.setLayout(new MigLayout("", "[]", "[][][][][][][][][][][][][][][][][][][][][]"));
+		panel.setLayout(new MigLayout("", "[]", "[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]"));
 		
 		JButton btnLastPlayed = new JButton("Last Played");
 		panel.add(btnLastPlayed, "cell 0 0");
@@ -114,26 +113,6 @@ public class ThisAlbum extends Main {
 		JLabel lblPlaylists = new JLabel("Playlists");
 		panel.add(lblPlaylists, "cell 0 4");
 		
-		JButton MyPlaylists = new JButton("My Playlists");
-		MyPlaylists.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				user.goToMyPlaylists();
-				user.run("PLAYLST "+user.username);
-			}
-		});
-		
-		panel.add(MyPlaylists, "cell 0 6");
-		
-		JButton CreatePlaylist = new JButton("Create Playlist");
-		CreatePlaylist.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				user.goToCreatePlaylist();
-			}
-		});
-		panel.add(CreatePlaylist, "cell 0 8");
-		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(204, 102, 51));
 		panel_1.setBounds(16, 16, 866, 61);
@@ -149,12 +128,6 @@ public class ThisAlbum extends Main {
 		});
 		btnHome.setBounds(16, 16, 81, 29);
 		panel_1.add(btnHome);
-		
-		txtSearch = new JTextField();
-		txtSearch.setBounds(128, 16, 73, 26);
-		txtSearch.setText("Search");
-		panel_1.add(txtSearch);
-		txtSearch.setColumns(10);
 		
 		JButton btnLogOut = new JButton("Log out");
 		btnLogOut.addMouseListener(new MouseAdapter() {
@@ -197,15 +170,35 @@ public class ThisAlbum extends Main {
 		album_year.setBounds(789, 180, 61, 16);
 		frame.getContentPane().add(album_year);
 		
+		JButton MyPlaylists = new JButton("My Playlists");
+		MyPlaylists.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToMyPlaylists();
+				user.run("PLAYLST "+user.username);
+			}
+		});
+		
+		panel.add(MyPlaylists, "cell 0 5");
+		
+		JButton CreatePlaylist = new JButton("Create Playlist");
+		CreatePlaylist.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToCreatePlaylist();
+			}
+		});
+		panel.add(CreatePlaylist, "cell 0 6");
+		
 		JLabel lblDownloads = new JLabel("Downloads");
 		panel.add(lblDownloads, "cell 0 7");
 		JButton mySongs = new JButton("My Songs");
 		mySongs.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				user.goToMySongs();
 				user.run("MYSNGS "+user.username);
 				user.run("SNGPLST "+user.username);
-				user.goToMySongs();
 			}
 		});
 		panel.add(mySongs, "cell 0 8");

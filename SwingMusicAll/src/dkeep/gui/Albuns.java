@@ -11,7 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import net.miginfocom.swing.MigLayout;
@@ -25,7 +24,6 @@ import java.awt.Color;
 public class Albuns extends Main {
 
 	protected JFrame frame;
-	private JTextField txtSearch;
 	private JTable table;
 	protected JLabel user_name;
 	protected String[] col = {"Id","Name","Year","Genre","Artist"};
@@ -154,12 +152,6 @@ public class Albuns extends Main {
 		panel_1.setLayout(null);
 		panel_1.add(btnHome);
 		
-		txtSearch = new JTextField();
-		txtSearch.setBounds(128, 16, 73, 26);
-		txtSearch.setText("Search");
-		panel_1.add(txtSearch);
-		txtSearch.setColumns(10);
-		
 		JButton btnLogOut = new JButton("Log out");
 		btnLogOut.addMouseListener(new MouseAdapter() {
 			@Override
@@ -184,9 +176,9 @@ public class Albuns extends Main {
 		mySongs.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				user.goToMySongs();
 				user.run("MYSNGS "+user.username);
 				user.run("SNGPLST "+user.username);
-				user.goToMySongs();
 			}
 		});
 		panel.add(mySongs, "cell 0 8");
