@@ -34,14 +34,6 @@ public class Artists extends Main{
 		 }
 	};
 	
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-
-	}
-
 	/**
 	 * Create the application.
 	 * @wbp.parser.entryPoint

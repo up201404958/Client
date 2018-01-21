@@ -175,7 +175,7 @@ public class MySongs extends Main{
 		btnPlay.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(Flags.activethread==false) {
+				if(!Flags.activethread) {
 					Song = new MusicThread((String) table.getValueAt(row, 0));
 					Song.start();
 					Flags.flag=true;

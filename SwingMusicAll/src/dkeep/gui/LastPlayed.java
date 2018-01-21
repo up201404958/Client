@@ -19,7 +19,7 @@ import java.awt.Color;
 public class LastPlayed extends Main{
 
 	protected JFrame frame;
-	private JTable table;
+	protected JTable table;
 	protected JLabel user_name;
 	protected String[] col = {"Id","Name","Album","Artist","Duration","Genre"};
 	@SuppressWarnings("serial")

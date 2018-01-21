@@ -117,10 +117,6 @@ public class Logged extends Main {
 				user.goToMyPlaylists();
 			}
 		});
-		btnMyPlaylists.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		panel.add(btnMyPlaylists, "cell 0 5");
 		
 		JButton btnAddPlaylist = new JButton("Create playlist");

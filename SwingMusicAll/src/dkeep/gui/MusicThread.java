@@ -34,8 +34,8 @@ public class MusicThread extends Thread {
 			
 			song.play(false);
 			System.out.println("playing");
-			while (song.playing()== true){
-				if (Flags.flag==false)
+			while (song.playing()){
+				if (!Flags.flag==false)
 					break;	
 
 				while(Flags.stoped) {

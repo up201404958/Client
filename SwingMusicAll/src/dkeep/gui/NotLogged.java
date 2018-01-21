@@ -24,10 +24,10 @@ public class NotLogged extends Main {
 	 * 
 	 */
 	protected JFrame frame;
-	private JPanel contentPane;
+	protected JPanel contentPane;
 	private JTextField txtUser;
 	private JTextField txtPassword;
-	protected static JButton btnSignIn;
+	protected JButton btnSignIn;
 	protected JLabel label;
 	private JLabel lblNewLabel;
 	/**
