@@ -10,26 +10,27 @@ import javax.swing.JComboBox;
 import dkeep.gui.Main;
 import dkeep.gui.MusicThread;
 
+/**
+ * This class represents the client part of the application
+ * In this class we make the requests to the server and interpret the answers
+ *
+ */
 public class Client extends Main{
     
-	Socket requestSocket;
-    ObjectOutputStream out;
-    ObjectInputStream in;
-    String message;
-    ArrayList <String> array = new ArrayList<String>();
-    ArrayList <String> playlists = new ArrayList<String>();
-    ArrayList <String> albums = new ArrayList<String>();
-    ArrayList <String> songss = new ArrayList<String>();
+	private Socket requestSocket;
+	private ObjectOutputStream out;
+	private ObjectInputStream in;
+	protected String message;
     public boolean playlist = false;
-    public MusicThread Song;
-	
+    protected MusicThread Song;
 
-    
-    public Client(){}
-    
+    /**
+     * This method is the main method of the class, and every request goes through here
+     * The protocol used to communicate is a custom protocol 
+     * @param msg to be sent to the server
+     */
     @SuppressWarnings("unchecked") // read in object
-	public void run(String msg)
-    {
+	public void run(String msg){
         try{
             //1. creating a socket to connect to the server
             requestSocket = new Socket("localhost", 8080);
@@ -44,56 +45,56 @@ public class Client extends Main{
             	    String[] parts = msg.split(" ");
                 
             	    if(parts[0].equals("ARTS")) {
-            	    		//server response
-                		array = (ArrayList<String>)in.readObject();
-                		//ListWorking//testing Jtable
+   
+            	    		ArrayList <String> array = (ArrayList<String>)in.readObject();
+                		
                 		for(int i=0;i<array.size();i++) {
                 			String[] this_row = array.get(i).split(",");
                 			Object[] row = {this_row[0],this_row[1],this_row[2]};
-                			artists.tableModel.addRow(row);
+                			artists.getTableModel().addRow(row);
                 		}
                 		System.out.println("server sent>" + array);
             	    }else if(parts[0].equals("ALBS")) {
-            	    		albums = (ArrayList<String>)in.readObject();
+            	    		ArrayList <String> albums = (ArrayList<String>)in.readObject();
             	    		for(int i=0;i<albums.size();i++) {
                     			String[] this_row = albums.get(i).split(",");
                     			Object[] row = {this_row[0],this_row[1],this_row[2],this_row[3],this_row[4]};
-                    			albuns.tableModel.addRow(row);
+                    			albuns.getTableModel().addRow(row);
                     	}
             	    }else if(parts[0].equals("MYSNGS")) {
             	    		
-            			songss = (ArrayList<String>)in.readObject();
+            	    		ArrayList <String> songss = (ArrayList<String>)in.readObject();
             	    
             			for(int i=0;i<songss.size();i++) {
                 			String[] this_row = songss.get(i).split(",");
                 			Object[] row = {this_row[0],this_row[1],this_row[2],this_row[3],this_row[4],this_row[5],this_row[6],this_row[7]};
-                			mysongs.tableModel.addRow(row);
+                			mysongs.getTableModel().addRow(row);
             			}
 
             	    }else if(parts[0].equals("SNGS")){
             	    		
-            	    		songss = (ArrayList<String>)in.readObject();
+            	    		ArrayList <String> songss = (ArrayList<String>)in.readObject();
             	    		
             	    		for(int i=0;i<songss.size();i++) {
                     			String[] this_row = songss.get(i).split(",");
                     			Object[] row = {this_row[0],this_row[1],this_row[2],this_row[3],this_row[4],this_row[5],this_row[6],this_row[7]};
-                    			songs.tableModel.addRow(row);
+                    			songs.getTableModel().addRow(row);
                     	}
             	    
             	    }else if(parts[0].equals("SNGPLST")) {
             	    		
             	    	    ArrayList <String> playlists = (ArrayList<String>)in.readObject();
             	    	    
-            	    	    mysongs.combobox = new JComboBox<String>();
-            	    		mysongs.plColumn = mysongs.table.getColumnModel().getColumn(8);
+            	    	    mysongs.setCombobox(new JComboBox<String>());
+            	    		mysongs.setPlColumn(mysongs.table.getColumnModel().getColumn(8));
             	    		
             	    		for(int i=0;i<playlists.size();i++) {
             	    			String[] this_row = playlists.get(i).split(",");
-            	    			mysongs.combobox.addItem(this_row[1]+"-"+this_row[0]);
+            	    			mysongs.getCombobox().addItem(this_row[1]+"-"+this_row[0]);
             	    		}
             	    		if(playlists.size()==0)
             	    			user.playlist=true;
-            	    		mysongs.plColumn.setCellEditor(new DefaultCellEditor(mysongs.combobox));
+            	    		mysongs.getPlColumn().setCellEditor(new DefaultCellEditor(mysongs.getCombobox()));
             	    	
             	    }else if(parts[0].equals("CREATE")) { //CREATE PLAYLIST
                 	
@@ -102,23 +103,23 @@ public class Client extends Main{
                 
                 }else if(parts[0].equals("PLAYLST")) { //GET ALL PLAYLISTS FROM USER
                 		
-                		playlists = (ArrayList<String>)in.readObject();	
+                		ArrayList <String> playlists = (ArrayList<String>)in.readObject();	
        
                 		for(int i=0;i<playlists.size();i++) {
                 			String[] this_playlist = playlists.get(i).split(",");
                 			Object[] playlist = {this_playlist[0],this_playlist[1]};
-                			myplaylists.tableModel.addRow(playlist);
+                			myplaylists.getTableModel().addRow(playlist);
                 		}
                 		System.out.println("server sent>" + playlists);
                 		
                 }else if(parts[0].equals("GOTOTA")) {
                 		
-                	ArrayList <String> album = (ArrayList<String>)in.readObject();
+                		ArrayList <String> album = (ArrayList<String>)in.readObject();
                 		
                 		for(int i=0;i<album.size();i++) {
                 			String[] this_album = album.get(i).split(",");
                 			Object[] song = {this_album[0],this_album[1],this_album[2],this_album[3],this_album[4],this_album[5]};
-                			thisalbum.tableModel.addRow(song);
+                			thisalbum.getTableModel().addRow(song);
                 		}
                 		
                 		System.out.println("server sent>" + album);
@@ -130,7 +131,7 @@ public class Client extends Main{
                 		for(int i=0;i<songs.size();i++) {
                 			String[] this_song = songs.get(i).split(",");
                 			Object[] song = {this_song[0],this_song[1],this_song[2],this_song[3],this_song[4],this_song[5]};
-                			thisplaylist.tableModel.addRow(song);
+                			thisplaylist.getTableModel().addRow(song);
                 		}
                 		
                 		System.out.println("server sent>" + songs);
@@ -142,18 +143,17 @@ public class Client extends Main{
                 	}else{
                 		message = (String)in.readObject();
                 
-                		if(message.equals("INVALID LOGIN")) 
+                		if(message.equals("INVALID LOGIN")) {
                 			System.out.println("ERROR:" + message);
-                		else if(message.equals("USERNAME ALREADY EXISTS")) {
+                			notlogged.getLblNewLabel().setText("INVALID LOGIN");
+                		}else if(message.equals("USERNAME ALREADY EXISTS")) {
                 			//register.Invalid_Username.setVisible(true);
-                			register.label.setText("INVALID USERNAME");
-                		}
-                		else if(message.equals("VALID LOGIN")){
+                			register.getLabel().setText("INVALID USERNAME");
+                		}else if(message.equals("VALID LOGIN")){
                 			System.out.println("server>" + message);
                 			user.setUser(parts[1]);
                 			user.goToHomepage();
-                		}
-                		else if(message.equals("REGISTED")) {
+                		}else if(message.equals("REGISTED")) {
                 			user.goToLogin();
                 		}
                 }
@@ -182,10 +182,14 @@ public class Client extends Main{
         }
     }
    
+    /**
+     * This method is used for receiving a music from the server using sockets
+     * @param parts used for saving the music with an adequate name
+     */
     private void downloadSong(String[] parts) {
     		
     	 	try {
-    	 		byte data[] = new byte[2048]; // Here you can increase the size also which will receive it faster
+    	 		byte data[] = new byte[4096]; // Here you can increase the size also which will receive it faster
 	        String path = "music/music_" + parts[1]+".wav";
 	    		FileOutputStream fileOut = new FileOutputStream(path);
 	     
@@ -207,8 +211,11 @@ public class Client extends Main{
 		
 	}
 
-	public void sendMessage(String msg)
-    {
+	/**
+	 * This method sends the request  through a socket
+	 * @param msg to be sent to the the server
+	 */
+	private void sendMessage(String msg){
         try{
             out.writeObject(msg);
             out.flush();
@@ -218,6 +225,9 @@ public class Client extends Main{
             ioException.printStackTrace();
         }
     }
+	public String getMessage() {
+		return this.message;
+	}
    
   
 }

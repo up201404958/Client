@@ -1,28 +1,22 @@
 package dkeep.gui;
 
 import java.awt.Component;
-import java.awt.EventQueue;
 import java.awt.Font;
-
-
 import javax.swing.JButton;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-
 import net.miginfocom.swing.MigLayout;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import javax.swing.JScrollPane;
-
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 import java.awt.Color;
-
+/**
+ * This class represents the Artists page
+ *
+ */
 public class Artists extends Main{
 
 	protected JFrame frame;
@@ -30,11 +24,8 @@ public class Artists extends Main{
 	protected String[] col = {"Artist Name","Country","Genre"};
 	protected JLabel user_name;
 	
-	public DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
-		 /**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
+	@SuppressWarnings("serial")
+	private DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
 
 		@Override
 		 public boolean isCellEditable(int row, int column)
@@ -48,20 +39,12 @@ public class Artists extends Main{
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Artists window = new Artists();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+
 	}
 
 	/**
 	 * Create the application.
+	 * @wbp.parser.entryPoint
 	 */
 	public Artists() {
 		initialize();
@@ -84,6 +67,12 @@ public class Artists extends Main{
 		panel.setLayout(new MigLayout("", "[]", "[][][][][][][][][][][][][][][]"));
 		
 		JButton btnLastPlayed = new JButton("Last Played");
+		btnLastPlayed.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToLastPlayed();
+			}
+		});
 		panel.add(btnLastPlayed, "cell 0 0");
 		
 		JButton btnSongs = new JButton("Songs");
@@ -91,18 +80,15 @@ public class Artists extends Main{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToSongs();
-				user.run("SNGS ALL");
-				user.run("SNGPLST "+user.username);
 			}
 		});
 		panel.add(btnSongs, "cell 0 1");
 		
-		JButton btnAlbuns = new JButton("Albuns");
+		JButton btnAlbuns = new JButton("Albums");
 		btnAlbuns.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToAlbuns();
-				user.run("ALBS ALL");
 			}
 		});
 		panel.add(btnAlbuns, "cell 0 2");
@@ -118,7 +104,6 @@ public class Artists extends Main{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToMyPlaylists();
-				user.run("PLAYLST "+user.username);
 			}
 		});
 		panel.add(btnMyPlaylists, "cell 0 5");
@@ -181,7 +166,7 @@ public class Artists extends Main{
 		frame.getContentPane().add(scrollPane);
 		
 		
-		artists_table = new JTable(tableModel);
+		artists_table = new JTable(getTableModel());
 		scrollPane.setViewportView(artists_table);
 		artists_table.add(new JScrollPane(scrTbl));
 		
@@ -192,12 +177,18 @@ public class Artists extends Main{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToMySongs();
-				user.run("MYSNGS "+user.username);
-				user.run("SNGPLST "+user.username);
 			}
 		});
 		panel.add(mySongs, "cell 0 8");
 
 
+	}
+
+	public DefaultTableModel getTableModel() {
+		return tableModel;
+	}
+
+	public void setTableModel(DefaultTableModel tableModel) {
+		this.tableModel = tableModel;
 	}
 }

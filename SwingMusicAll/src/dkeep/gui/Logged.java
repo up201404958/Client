@@ -21,30 +21,18 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
+/**
+ * This class represents the homePage of the user
+ *
+ */
 public class Logged extends Main {
 
 	protected JFrame frame;
-	public JLabel user_name;
+	protected JLabel user_name;
 	private JTextField textField;
 	private JTextField textField_1;
 	protected JLabel confirm;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		/*EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Logged window = new Logged();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});*/
-	}
-
+	
 	/**
 	 * Create the application.
 	 * @throws IOException 
@@ -88,15 +76,6 @@ public class Logged extends Main {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToLastPlayed();
-				int size = lastplay.size()-1;
-				System.out.println("jejrjerjejr" + size);
-				if(size > 0) {
-					for(int i=size;i>=0;i--) {
-						String[] this_row = lastplay.get(i).split(",");
-						Object[] row = {this_row[0],this_row[1],this_row[2],this_row[3],this_row[4],this_row[5]};
-						lastplayed.tableModel.addRow(row);
-					}
-				}
 			}
 		});
 		panel.add(btnLastPlayed, "cell 0 0");
@@ -106,17 +85,15 @@ public class Logged extends Main {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToSongs();
-				user.run("SNGS ALL");
 			}
 		});
 		panel.add(btnSongs, "cell 0 1");
 		
-		JButton btnAlbuns = new JButton("Albuns");
+		JButton btnAlbuns = new JButton("Albums");
 		btnAlbuns.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToAlbuns();
-				user.run("ALBS ALL");
 			}
 		});
 		panel.add(btnAlbuns, "cell 0 2");
@@ -126,7 +103,6 @@ public class Logged extends Main {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToArtists();
-				user.run("ARTS ALL");
 			}
 		});
 		panel.add(btnArtists, "cell 0 3,alignx left");
@@ -139,7 +115,6 @@ public class Logged extends Main {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToMyPlaylists();
-				user.run("PLAYLST "+user.username);
 			}
 		});
 		btnMyPlaylists.addActionListener(new ActionListener() {
@@ -165,8 +140,6 @@ public class Logged extends Main {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToMySongs();
-				user.run("MYSNGS "+user.username);
-				user.run("SNGPLST "+user.username);
 			}
 		});
 		panel.add(mySongs, "cell 0 8");

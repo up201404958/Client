@@ -1,8 +1,5 @@
 package dkeep.gui;
 
-import java.awt.EventQueue;
-
-
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
@@ -10,9 +7,6 @@ import net.miginfocom.swing.MigLayout;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
-import dkeep.client.Client;
-
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -21,29 +15,8 @@ public class Register extends Main{
 
 	protected JFrame frame;
 	private JTextField textField;
-
 	private JTextField textField_2;
-
-	public JLabel label;
-	
-	Client user=new Client();
-	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Register window = new Register();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	protected JLabel label;
 	/**
 	 * Create the application.
 	 */
@@ -80,15 +53,7 @@ public class Register extends Main{
 		textField = new JTextField();
 		panel_1.add(textField, "cell 12 2,growx");
 		textField.setColumns(10);
-		/*
-		JLabel lblEmail = new JLabel("Email");
-		lblEmail.setForeground(Color.WHITE);
-		panel_1.add(lblEmail, "cell 7 4");
 		
-		textField_1 = new JTextField();
-		panel_1.add(textField_1, "cell 12 4,growx");
-		textField_1.setColumns(10);
-		*/
 		JLabel lblPassword = new JLabel("Password");
 		lblPassword.setForeground(Color.WHITE);
 		panel_1.add(lblPassword, "cell 7 6");
@@ -96,14 +61,6 @@ public class Register extends Main{
 		textField_2 = new JTextField();
 		panel_1.add(textField_2, "cell 12 6,growx");
 		textField_2.setColumns(10);
-		/*
-		JLabel lblConfimPassword = new JLabel("Confirm Password");
-		lblConfimPassword.setForeground(Color.WHITE);
-		panel_1.add(lblConfimPassword, "cell 7 8");
-		
-		textField_3 = new JTextField();
-		panel_1.add(textField_3, "cell 12 8,growx");
-		textField_3.setColumns(10);*/
 		
 		JButton btnSignUp = new JButton("Sign up");
 		btnSignUp.addMouseListener(new MouseAdapter() {
@@ -112,7 +69,7 @@ public class Register extends Main{
 				String name=textField.getText();
 				String password=textField_2.getText();
 				if(name.equals("") || password.equals("")) {
-					label.setText("INVALID");
+					getLabel().setText("INVALID");
 				}else {
 					String message = "REGS "+name+" "+password;
 					user.run(message);
@@ -121,9 +78,17 @@ public class Register extends Main{
 		});
 		panel_1.add(btnSignUp, "cell 11 11");
 		
-		label = new JLabel("");
-		label.setForeground(Color.WHITE);
-		panel_1.add(label, "cell 12 11");
+		setLabel(new JLabel(""));
+		getLabel().setForeground(Color.WHITE);
+		panel_1.add(getLabel(), "cell 12 11");
+	}
+
+	public JLabel getLabel() {
+		return label;
+	}
+
+	public void setLabel(JLabel label) {
+		this.label = label;
 	}
 
 }

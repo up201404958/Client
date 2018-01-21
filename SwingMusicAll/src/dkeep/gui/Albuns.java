@@ -1,26 +1,22 @@
 package dkeep.gui;
 
-import java.awt.EventQueue;
 import java.awt.Font;
-
 import javax.swing.JButton;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
 import javax.swing.JPanel;
-
-
 import javax.swing.table.DefaultTableModel;
-
 import net.miginfocom.swing.MigLayout;
-
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
 
+/**
+ * This class represents the Album page
+ *
+ */
 public class Albuns extends Main {
 
 	protected JFrame frame;
@@ -28,12 +24,8 @@ public class Albuns extends Main {
 	protected JLabel user_name;
 	protected String[] col = {"Id","Name","Year","Genre","Artist"};
 	
-	public DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
+	private DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
 	
-	
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
 
 		@Override
@@ -43,32 +35,16 @@ public class Albuns extends Main {
 		 }
 	};
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Albuns window = new Albuns();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the application.
 	 */
 	public Albuns() {
 		initialize();
 	}
-
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(255, 204, 153));
 		frame.setBackground(new Color(255, 204, 153));
@@ -86,6 +62,7 @@ public class Albuns extends Main {
 		btnLastPlayed.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				user.goToLastPlayed();
 			}
 		});
 		panel.add(btnLastPlayed, "cell 0 0");
@@ -95,13 +72,11 @@ public class Albuns extends Main {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToSongs();
-				user.run("SNGS ALL");
-				user.run("SNGPLST "+user.username);
 			}
 		});
 		panel.add(btnSongs, "cell 0 1");
 		
-		JButton btnAlbuns = new JButton("Albuns");
+		JButton btnAlbuns = new JButton("Albums");
 		panel.add(btnAlbuns, "cell 0 2");
 		
 		JButton btnArtists = new JButton("Artists");
@@ -109,7 +84,6 @@ public class Albuns extends Main {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToArtists();
-				user.run("ARTS ALL");
 			}
 		});
 		panel.add(btnArtists, "cell 0 3,alignx left");
@@ -122,7 +96,6 @@ public class Albuns extends Main {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToMyPlaylists();
-				user.run("PLAYLST "+user.username);
 			}
 		});
 		panel.add(btnMyPlaylists, "cell 0 5");
@@ -177,8 +150,6 @@ public class Albuns extends Main {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToMySongs();
-				user.run("MYSNGS "+user.username);
-				user.run("SNGPLST "+user.username);
 			}
 		});
 		panel.add(mySongs, "cell 0 8");
@@ -192,7 +163,7 @@ public class Albuns extends Main {
 		scrollPane.setBounds(225, 172, 474, 196);
 		frame.getContentPane().add(scrollPane);
 		
-		table = new JTable(tableModel);
+		table = new JTable(getTableModel());
 		scrollPane.setViewportView(table);
 		
 		table.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -213,5 +184,11 @@ public class Albuns extends Main {
 				}
 			}
 		});
+	}
+	public DefaultTableModel getTableModel() {
+		return tableModel;
+	}
+	public void setTableModel(DefaultTableModel tableModel) {
+		this.tableModel = tableModel;
 	}
 }

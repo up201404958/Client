@@ -1,7 +1,6 @@
 package dkeep.gui;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,40 +14,26 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+/**
+ * This class represents the Songs page
+ *
+ */
 public class Songs extends Main{
 
 	protected JFrame frame;
-	public JTable table;
+	protected JTable table;
 	protected JLabel user_name;
 	protected String[] col = {"Id","Name","Genre","BPM","Key","Duration","Artist","Album"};
 	
 	
 	@SuppressWarnings("serial")
-	public DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
+	private DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
 		 
 		@Override
-		 public boolean isCellEditable(int row, int column)
-		 {  
-			
-		    return false;//This causes all cells to be not editable
+		 public boolean isCellEditable(int row, int column){  
+			return false;//This causes all cells to be not editable
 		 }
 	};
-	/**
-	* Launch the application.
-	*/
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Songs window = new Songs();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
@@ -74,17 +59,30 @@ public class Songs extends Main{
 		panel.setLayout(new MigLayout("", "[]", "[][][][][][][][][][][][][]"));
 		
 		JButton btnLastPlayed = new JButton("Last Played");
+		btnLastPlayed.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToLastPlayed();
+				int size = lastplay.size()-1;
+				if(size > 0) {
+					for(int i=size;i>=0;i--) {
+						String[] this_row = lastplay.get(i).split(",");
+						Object[] row = {this_row[0],this_row[1],this_row[2],this_row[3],this_row[4],this_row[5]};
+						lastplayed.tableModel.addRow(row);
+					}
+				}
+			}
+		});
 		panel.add(btnLastPlayed, "cell 0 0");
 		
 		JButton btnSongs = new JButton("Songs");
 		panel.add(btnSongs, "cell 0 1");
 		
-		JButton btnAlbuns = new JButton("Albuns");
+		JButton btnAlbuns = new JButton("Albums");
 		btnAlbuns.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToAlbuns();
-				user.run("ALBS ALL");
 			}
 		});
 		panel.add(btnAlbuns, "cell 0 2");
@@ -94,7 +92,6 @@ public class Songs extends Main{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToArtists();
-				user.run("ARTS ALL");
 			}
 		});
 		panel.add(btnArtists, "cell 0 3,alignx left");
@@ -107,7 +104,6 @@ public class Songs extends Main{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToMyPlaylists();
-				user.run("PLAYLST "+user.username);
 			}
 		});
 		panel.add(MyPlaylists, "cell 0 5");
@@ -163,7 +159,7 @@ public class Songs extends Main{
 		scrollPane.setBounds(204, 191, 617, 146);
 		frame.getContentPane().add(scrollPane);
 		
-		table = new JTable(tableModel);
+		table = new JTable(getTableModel());
 		scrollPane.setViewportView(table);
 	
 
@@ -176,7 +172,7 @@ public class Songs extends Main{
 					if (row >= 0 && col >= 0) {
 						int r = JOptionPane.showConfirmDialog(null,(String) table.getValueAt(row, 1)," Download",JOptionPane.YES_NO_OPTION);
 						if (r == JOptionPane.YES_OPTION) {
-		        				user.run("DWLD "+(String) table.getValueAt(row, 0)); //download music id
+		        				user.run("DWLD "+(String) table.getValueAt(row, 0)+" "+user.username); //download music id
 		        			}
 					}
 				}
@@ -191,12 +187,18 @@ public class Songs extends Main{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToMySongs();
-				user.run("MYSNGS "+user.username);
-				user.run("SNGPLST "+user.username);
 			}
 		});
 		panel.add(mySongs, "cell 0 8");
 		
 		
+	}
+
+	public DefaultTableModel getTableModel() {
+		return tableModel;
+	}
+
+	public void setTableModel(DefaultTableModel tableModel) {
+		this.tableModel = tableModel;
 	}
 }

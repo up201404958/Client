@@ -1,24 +1,15 @@
 package dkeep.gui;
 
 import java.awt.Color;
-
-import java.awt.EventQueue;
 import java.awt.Font;
-
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-
-
 import net.miginfocom.swing.MigLayout;
-
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -26,7 +17,10 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+/**
+ * This class represents the songs that belong to a user allowing us to play them
+ *
+ */
 public class MySongs extends Main{
 
 	protected JFrame frame;
@@ -34,12 +28,12 @@ public class MySongs extends Main{
 	protected JLabel user_name;
 	protected String[] col = {"Id","Name","Album","Artist","Duration","Genre","BPM","Key","AddTo"};
 
-	public JComboBox<String> combobox;
-	public javax.swing.table.TableColumn plColumn;
+	private JComboBox<String> combobox;
+	private javax.swing.table.TableColumn plColumn;
 	
 	protected int row;
 	@SuppressWarnings("serial")
-	public DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
+	private DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
 		 
 		@Override
 		 public boolean isCellEditable(int row, int column){  
@@ -47,24 +41,9 @@ public class MySongs extends Main{
 				if(user.playlist=true)
 					return true;
 			}
-		    return false;//This causes all cells to be not editable
+		    return false;
 		 }
 	};
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Songs window = new Songs();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
@@ -91,17 +70,28 @@ public class MySongs extends Main{
 		panel.setLayout(new MigLayout("", "[]", "[][][][][][][][][][][][][]"));
 		
 		JButton btnLastPlayed = new JButton("Last Played");
+		btnLastPlayed.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToLastPlayed();
+			}
+		});
 		panel.add(btnLastPlayed, "cell 0 0");
 		
 		JButton btnSongs = new JButton("Songs");
+		btnSongs.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToSongs();
+			}
+		});
 		panel.add(btnSongs, "cell 0 1");
 		
-		JButton btnAlbuns = new JButton("Albuns");
+		JButton btnAlbuns = new JButton("Albums");
 		btnAlbuns.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToAlbuns();
-				user.run("ALBS ALL");
 			}
 		});
 		panel.add(btnAlbuns, "cell 0 2");
@@ -111,7 +101,6 @@ public class MySongs extends Main{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToArtists();
-				user.run("ARTS ALL");
 			}
 		});
 		panel.add(btnArtists, "cell 0 3,alignx left");
@@ -124,7 +113,6 @@ public class MySongs extends Main{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToMyPlaylists();
-				user.run("PLAYLST "+user.username);
 			}
 		});
 		panel.add(MyPlaylists, "cell 0 5");
@@ -180,7 +168,7 @@ public class MySongs extends Main{
 		scrollPane.setBounds(204, 191, 617, 146);
 		frame.getContentPane().add(scrollPane);
 		
-		table = new JTable(tableModel);
+		table = new JTable(getTableModel());
 		scrollPane.setViewportView(table);
 		
 		JButton btnPlay = new JButton("Play");
@@ -194,7 +182,6 @@ public class MySongs extends Main{
 					String line = (String) table.getValueAt(row,0)+","+(String)table.getValueAt(row,1)+","+(String)table.getValueAt(row,2)+","+(String)table.getValueAt(row,3)+","+(String) table.getValueAt(row,4)+","+(String) table.getValueAt(row,5);
 					System.out.println(line);
 					lastplay.add(line);
-					System.out.println(lastplay.size());
 				}
 
 			}
@@ -234,7 +221,7 @@ public class MySongs extends Main{
 		btnResume.setBounds(672, 376, 117, 29);
 		frame.getContentPane().add(btnResume);
 		
-		tableModel.addTableModelListener(new TableModelListener() {
+		getTableModel().addTableModelListener(new TableModelListener() {
 			 @Override
 			    public void tableChanged(TableModelEvent e) {
 			        int type = e.getType();
@@ -250,7 +237,6 @@ public class MySongs extends Main{
 			                    		String[] parts = aux.split("-");
 			                    	    user.run("ADDSNG "+parts[1]+" "+model.getValueAt(row, 0));
 			                    }
-			                   
 			                }
 			                break;
 			        }
@@ -272,12 +258,32 @@ public class MySongs extends Main{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToMySongs();
-				user.run("MYSNGS "+user.username);
-				user.run("SNGPLST "+user.username);
-			
 			}
 		});
 		panel.add(mySongs, "cell 0 8");
 	}
-	
+
+	public DefaultTableModel getTableModel() {
+		return tableModel;
 	}
+
+	public void setTableModel(DefaultTableModel tableModel) {
+		this.tableModel = tableModel;
+	}
+
+	public JComboBox<String> getCombobox() {
+		return combobox;
+	}
+
+	public void setCombobox(JComboBox<String> combobox) {
+		this.combobox = combobox;
+	}
+
+	public javax.swing.table.TableColumn getPlColumn() {
+		return plColumn;
+	}
+
+	public void setPlColumn(javax.swing.table.TableColumn plColumn) {
+		this.plColumn = plColumn;
+	}
+}

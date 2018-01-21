@@ -1,59 +1,38 @@
 package dkeep.gui;
 
 import java.awt.Color;
-
-import java.awt.EventQueue;
-
-
 import javax.swing.JButton;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import javax.swing.table.DefaultTableModel;
-
 import net.miginfocom.swing.MigLayout;
 import java.awt.Font;
-
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+/**
+ * This class represents a specific playlist from a certain user
+ *
+ */
 public class ThisPlaylist extends Main {
 
 
 	protected JFrame frame;
 	protected JLabel user_name;
-	private JTable table;
+	protected JTable table;
 	protected JLabel playlist_name;
 	protected String id;
 	protected String[] col = {"Id","Name","Genre","Duration","BPM","Key"};
 	protected int row;
 	@SuppressWarnings("serial")
-	public DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
+	private DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
 		 @Override
-		 public boolean isCellEditable(int row, int column)
-		 {
-		    return false;//This causes all cells to be not editable
+		 public boolean isCellEditable(int row, int column){
+		    return false;
 		 }
 	};
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ThisAlbum window = new ThisAlbum();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
@@ -80,6 +59,12 @@ public class ThisPlaylist extends Main {
 		panel.setLayout(new MigLayout("", "[]", "[][][][][][][][][][][][][][][][][][][][][][]"));
 		
 		JButton btnLastPlayed = new JButton("Last Played");
+		btnLastPlayed.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToLastPlayed();
+			}
+		});
 		panel.add(btnLastPlayed, "cell 0 0");
 		
 		JButton btnSongs = new JButton("Songs");
@@ -87,18 +72,15 @@ public class ThisPlaylist extends Main {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToSongs();
-				user.run("SNGS ALL");
-				user.run("SNGPLST "+user.username);
 			}
 		});
 		panel.add(btnSongs, "cell 0 1");
 		
-		JButton btnAlbuns = new JButton("Albuns");
+		JButton btnAlbuns = new JButton("Albums");
 		btnAlbuns.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToAlbuns();
-				user.run("ALBS ALL");
 			}
 		});
 		panel.add(btnAlbuns, "cell 0 2");
@@ -108,7 +90,6 @@ public class ThisPlaylist extends Main {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToArtists();
-				user.run("ARTS ALL");
 			}
 		});
 		panel.add(btnArtists, "cell 0 3,alignx left");
@@ -121,7 +102,6 @@ public class ThisPlaylist extends Main {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToMyPlaylists();
-				user.run("PLAYLST "+user.username);
 			}
 		});
 		
@@ -154,14 +134,15 @@ public class ThisPlaylist extends Main {
 		panel_1.add(btnLogOut);
 		
 		user_name = new JLabel();
-		user_name.setBounds(663, 21, 61, 16);
+		user_name.setFont(new Font("Orator Std", Font.BOLD, 18));
+		user_name.setBounds(605, 16, 117, 31);
 		panel_1.add(user_name);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(230, 185, 586, 182);
 		frame.getContentPane().add(scrollPane);
 		
-		table = new JTable(tableModel);
+		table = new JTable(getTableModel());
 		scrollPane.setViewportView(table);
 		
 		table.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -183,7 +164,7 @@ public class ThisPlaylist extends Main {
 		btnOrderByBpm.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				thisplaylist.tableModel.setRowCount(0);
+				thisplaylist.getTableModel().setRowCount(0);
 				user.run("BPLSTSNG "+thisplaylist.getID());
 			}
 		});
@@ -194,7 +175,7 @@ public class ThisPlaylist extends Main {
 		btnOrderByKey.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				thisplaylist.tableModel.setRowCount(0);
+				thisplaylist.getTableModel().setRowCount(0);
 				user.run("KPLSTSNG "+thisplaylist.getID());
 
 			}
@@ -264,8 +245,6 @@ public class ThisPlaylist extends Main {
 		mySongs.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				user.run("MYSNGS "+user.username);
-				user.run("SNGPLST "+user.username);
 				user.goToMySongs();
 			}
 		});
@@ -278,5 +257,13 @@ public class ThisPlaylist extends Main {
 	}
 	protected String getID() {
 		return this.id;
+	}
+
+	public DefaultTableModel getTableModel() {
+		return tableModel;
+	}
+
+	public void setTableModel(DefaultTableModel tableModel) {
+		this.tableModel = tableModel;
 	}
 }

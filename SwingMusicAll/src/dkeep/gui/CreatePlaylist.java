@@ -16,10 +16,14 @@ import net.miginfocom.swing.MigLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
-
+import java.awt.Font;
+/**
+ * This class represents the Create Playlist page 
+ *
+ */
 public class CreatePlaylist extends Main{
 
-	public JFrame frame;
+	protected JFrame frame;
 	private JTextField txtLol;
 	protected JLabel username;
 
@@ -79,6 +83,12 @@ public class CreatePlaylist extends Main{
 		panel.setLayout(new MigLayout("", "[]", "[][][][][][][][][][][][][]"));
 		
 		JButton btnLastPlayed = new JButton("Last Played");
+		btnLastPlayed.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToLastPlayed();
+			}
+		});
 		panel.add(btnLastPlayed, "cell 0 0");
 		
 		JButton btnSongs = new JButton("Songs");
@@ -86,18 +96,15 @@ public class CreatePlaylist extends Main{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToSongs();
-				user.run("SNGS ALL");
-				user.run("SNGPLST "+user.username);
 			}
 		});
 		panel.add(btnSongs, "cell 0 1");
 		
-		JButton btnAlbuns = new JButton("Albuns");
+		JButton btnAlbuns = new JButton("Albums");
 		btnAlbuns.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToAlbuns();
-				user.run("ALBS ALL");
 			}
 		});
 		panel.add(btnAlbuns, "cell 0 2");
@@ -107,7 +114,6 @@ public class CreatePlaylist extends Main{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToArtists();
-				user.run("ARTS ALL");
 			}
 		});
 		panel.add(btnArtists, "cell 0 3,alignx left");
@@ -120,7 +126,6 @@ public class CreatePlaylist extends Main{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToMyPlaylists();
-				user.run("PLAYLST "+user.username);
 			}
 		});
 		panel.add(btnMyPlaylists, "cell 0 5");
@@ -169,13 +174,12 @@ public class CreatePlaylist extends Main{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToMySongs();
-				user.run("MYSNGS "+user.username);
-				user.run("SNGPLST "+user.username);
 			}
 		});
 		panel.add(mySongs, "cell 0 8");
 		username = new JLabel();
-		username.setBounds(688, 36, 61, 16);
+		username.setFont(new Font("Orator Std", Font.BOLD, 17));
+		username.setBounds(641, 31, 120, 24);
 		frame.getContentPane().add(username);
 
 	}

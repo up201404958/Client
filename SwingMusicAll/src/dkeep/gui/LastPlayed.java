@@ -1,6 +1,5 @@
 package dkeep.gui;
 
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -9,12 +8,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
-
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.Color;
-
+/**
+ * This class show us the last played songs by a specific user
+ *
+ */
 public class LastPlayed extends Main{
 
 	protected JFrame frame;
@@ -22,28 +23,13 @@ public class LastPlayed extends Main{
 	protected JLabel user_name;
 	protected String[] col = {"Id","Name","Album","Artist","Duration","Genre"};
 	@SuppressWarnings("serial")
-	public DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
+	protected DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
 		 
 		@Override
 		 public boolean isCellEditable(int row, int column){  
 		    return false;//This causes all cells to be not editable
 		 }
 	};
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					LastPlayed window = new LastPlayed();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
@@ -72,12 +58,30 @@ public class LastPlayed extends Main{
 		panel.add(btnLastPlayed, "cell 0 0");
 		
 		JButton btnSongs = new JButton("Songs");
+		btnSongs.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToSongs();
+			}
+		});
 		panel.add(btnSongs, "cell 0 1");
 		
-		JButton btnAlbuns = new JButton("Albuns");
+		JButton btnAlbuns = new JButton("Albums");
+		btnAlbuns.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToAlbuns();
+			}
+		});
 		panel.add(btnAlbuns, "cell 0 2");
 		
 		JButton btnArtists = new JButton("Artists");
+		btnArtists.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToArtists();
+			}
+		});
 		panel.add(btnArtists, "cell 0 3,alignx left");
 		
 		JLabel lblPlaylists = new JLabel("Playlists");
@@ -90,15 +94,28 @@ public class LastPlayed extends Main{
 		panel_1.setLayout(null);
 		
 		JButton btnHome = new JButton("Home");
+		btnHome.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToHomepage();
+			}
+		});
 		btnHome.setBounds(16, 16, 81, 29);
 		panel_1.add(btnHome);
 		
 		JButton btnLogOut = new JButton("Log out");
+		btnLogOut.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				user.goToLogin();
+			}
+		});
 		btnLogOut.setBounds(758, 16, 92, 29);
 		panel_1.add(btnLogOut);
 		
 		user_name = new JLabel();
-		user_name.setBounds(603, 21, 92, 16);
+		user_name.setFont(new Font("Orator Std", Font.BOLD, 17));
+		user_name.setBounds(603, 16, 132, 21);
 		panel_1.add(user_name);
 		
 		JButton MyPlaylists = new JButton("My Playlists");
@@ -106,7 +123,6 @@ public class LastPlayed extends Main{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToMyPlaylists();
-				user.run("PLAYLST "+user.username);
 			}
 		});
 		
@@ -128,8 +144,6 @@ public class LastPlayed extends Main{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToMySongs();
-				user.run("MYSNGS "+user.username);
-				user.run("SNGPLST "+user.username);
 			}
 		});
 		panel.add(mySongs, "cell 0 8");
