@@ -28,17 +28,17 @@ public class MySongs extends Main{
 	protected JLabel user_name;
 	protected String[] col = {"Id","Name","Album","Artist","Duration","Genre","BPM","Key","AddTo"};
 
-	private JComboBox<String> combobox;
-	private javax.swing.table.TableColumn plColumn;
+	protected JComboBox<String> combobox;
+	protected javax.swing.table.TableColumn plColumn;
 	
 	protected int row;
 	@SuppressWarnings("serial")
-	private DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
+	protected DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
 		 
 		@Override
 		 public boolean isCellEditable(int row, int column){  
 			if(column==8) {
-				if(user.playlist=true)
+				if(user.hasPlaylist())
 					return true;
 			}
 		    return false;
@@ -236,6 +236,7 @@ public class MySongs extends Main{
 			                    		String aux = (String) model.getValueAt(row, col);
 			                    		String[] parts = aux.split("-");
 			                    	    user.run("ADDSNG "+parts[1]+" "+model.getValueAt(row, 0));
+			       
 			                    }
 			                }
 			                break;

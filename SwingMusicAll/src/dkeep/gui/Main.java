@@ -72,7 +72,7 @@ public class Main {
 		songs.user_name.setText(user.username);
 		this.resetTables();
 		user.run("SNGS ALL");
-		user.run("SNGPLST "+user.username);
+		//user.run("SNGPLST "+user.username);
 	}
 	public void goToAlbuns() {
 		this.changeWindow(albuns.frame);
@@ -90,7 +90,7 @@ public class Main {
 		lastplayed.user_name.setText(user.username);
 		this.resetTables();
 		int size = lastplay.size()-1;
-		if(size > 0) {
+		if(size >= 0) {
 			for(int i=size;i>=0;i--) {
 				String[] this_row = lastplay.get(i).split(",");
 				Object[] row = {this_row[0],this_row[1],this_row[2],this_row[3],this_row[4],this_row[5]};
@@ -115,6 +115,7 @@ public class Main {
 		this.resetTables();
 		user.run("MYSNGS "+user.username);
 		user.run("SNGPLST "+user.username);
+		
 	}
 	public void goToThisPlaylist() {
 		this.changeWindow(thisplaylist.frame);

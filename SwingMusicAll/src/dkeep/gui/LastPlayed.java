@@ -21,7 +21,7 @@ public class LastPlayed extends Main{
 	protected JFrame frame;
 	protected JTable table;
 	protected JLabel user_name;
-	protected String[] col = {"Id","Name","Album","Artist","Duration","Genre"};
+	protected String[] col = {"Id","Name","Album","Artist","Genre","Duration"};
 	@SuppressWarnings("serial")
 	protected DefaultTableModel tableModel = new DefaultTableModel(col, 0) {
 		 

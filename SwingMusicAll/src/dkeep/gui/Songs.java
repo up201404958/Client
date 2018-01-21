@@ -63,14 +63,6 @@ public class Songs extends Main{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				user.goToLastPlayed();
-				int size = lastplay.size()-1;
-				if(size > 0) {
-					for(int i=size;i>=0;i--) {
-						String[] this_row = lastplay.get(i).split(",");
-						Object[] row = {this_row[0],this_row[1],this_row[2],this_row[3],this_row[4],this_row[5]};
-						lastplayed.tableModel.addRow(row);
-					}
-				}
 			}
 		});
 		panel.add(btnLastPlayed, "cell 0 0");

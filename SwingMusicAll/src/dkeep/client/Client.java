@@ -21,7 +21,7 @@ public class Client extends Main{
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	protected String message;
-    public boolean playlist = false;
+    private boolean playlist;
     protected MusicThread Song;
 
     /**
@@ -92,8 +92,9 @@ public class Client extends Main{
             	    			String[] this_row = playlists.get(i).split(",");
             	    			mysongs.getCombobox().addItem(this_row[1]+"-"+this_row[0]);
             	    		}
-            	    		if(playlists.size()==0)
-            	    			user.playlist=true;
+            	    		if(playlists.size()>0)
+            	    			user.setPlaylist(true);
+            	    		
             	    		mysongs.getPlColumn().setCellEditor(new DefaultCellEditor(mysongs.getCombobox()));
             	    	
             	    }else if(parts[0].equals("CREATE")) { //CREATE PLAYLIST
@@ -140,7 +141,10 @@ public class Client extends Main{
                 		downloadSong(parts);
                 	}else if(parts[0].equals("CHNGPASS")) {
                 		logged.setText("");
-                	}else{
+                	}else if(parts[0].equals("ADDSNG")){
+                		System.out.println("ADDED SONG");
+                	}
+                	else{
                 		message = (String)in.readObject();
                 
                 		if(message.equals("INVALID LOGIN")) {
@@ -227,6 +231,14 @@ public class Client extends Main{
     }
 	public String getMessage() {
 		return this.message;
+	}
+
+	public boolean hasPlaylist() {
+		return playlist;
+	}
+
+	public void setPlaylist(boolean playlist) {
+		this.playlist = playlist;
 	}
    
   
